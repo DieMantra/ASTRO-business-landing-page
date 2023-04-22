@@ -12,6 +12,9 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.23)
+  postcss:
+    specifier: ^8.4.23
+    version: 8.4.23
   prettier:
     specifier: ^2.8.7
     version: 2.8.7
