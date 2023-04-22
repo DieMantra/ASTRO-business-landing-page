@@ -1,6 +1,6 @@
 ## Todos
 
-- [ ] Add Netlify functions
+- [ ] Add Netlify functions for contact form
 
 ## 🚀 Project Structure
 
