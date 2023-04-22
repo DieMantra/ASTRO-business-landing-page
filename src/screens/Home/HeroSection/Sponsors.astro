@@ -1,0 +1,90 @@
+---
+import { Image } from '@astrojs/image/components';
+import FadeIntoView from '../../../components/UI/FadeIntoView.astro';
+interface Images {
+	alt: string;
+	src: `/images/sponsors/${string}`;
+	href: `https://www.${string}.${string}`;
+}
+const images: Images[] = [
+	{
+		alt: 'sponsor-avast',
+		src: '/images/sponsors/avast.png',
+		href: 'https://www.avast.com',
+	},
+	{
+		alt: 'sponsor-booking',
+		src: '/images/sponsors/booking.png',
+		href: 'https://www.booking.com',
+	},
+	{
+		alt: 'sponsor-dispatch',
+		src: '/images/sponsors/dispatch.png',
+		href: 'https://www.dispatch.me/',
+	},
+	{
+		alt: 'sponsor-eclipse',
+		src: '/images/sponsors/eclipse.png',
+		href: 'https://www.eclipse.org/ide/',
+	},
+];
+---
+
+<div class='sponsors'>
+	{
+		images.map((image, i) => (
+			<FadeIntoView
+				pixelsInViewDistance={50}
+				transitionSpeedMs={350}
+				mobileTranslateX={i % 2 === 0 ? `100%` : `-100%`}
+				mobileTranslateY={'0px'}
+				translateY={`${10 + 20 * i}%`}
+				blur={5}
+			>
+				<a
+					data-highlight='true'
+					data-highlight-color='rgba(var(--blue-light), 0.1)'
+					href={image.href}
+					class='sponsorLink'
+					target='_blank'
+				>
+					<Image
+						class='image'
+						src={image.src}
+						alt={image.alt}
+						width={200}
+						quality={100}
+						height={100}
+						background={'rgba(0, 0, 0, 0)'}
+						fit='contain'
+					/>
+				</a>
+			</FadeIntoView>
+		))
+	}
+</div>
+
+<style lang='scss'>
+	@use 'src/sass/mixins' as m;
+
+	.sponsors {
+		max-width: calc(var(--screen-medium) + 150px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		margin: 0 auto;
+		// padding-inline: 2rem;
+	}
+
+	.sponsorLink {
+		display: block;
+		padding-inline: 4rem;
+	}
+
+	@include m.mobile-down {
+		.sponsors {
+			gap: 1.4rem;
+		}
+	}
+</style>

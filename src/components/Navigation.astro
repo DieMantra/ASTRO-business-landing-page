@@ -1,0 +1,282 @@
+---
+import { Image } from '@astrojs/image/components';
+import Button from './UI/ButtonPrimary.astro';
+import HamburgerMenu from './UI/HamgurberMenu.astro';
+const SVG_LOGO = '/images/logos/LW.G.svg';
+
+const links = [
+	{ href: '/', text: 'Home' },
+	{ href: '/business.html', text: 'Business' },
+	{ href: '/partners.html', text: 'Partners' },
+	{ href: '/helpAndFaq.html', text: 'Help & FAQ' },
+];
+---
+
+<script>
+	const nav = document.getElementById('nav');
+	const showMenuBtn = document.getElementById('hamburger-btn');
+	const navMenu = document.getElementById('nav--menu');
+	const navLinks = document.getElementsByClassName('navigation-links');
+	const windowLocation = window.location.pathname;
+	showMenuBtn?.addEventListener('click', () => {
+		if (!navMenu) return;
+		const navHeight = nav?.clientHeight || 0;
+
+		navMenu.classList.toggle('show');
+		navMenu.style.top = `${navHeight}px`;
+
+		document.querySelector('body')!.style.overflow = navMenu.classList.contains(
+			'show'
+		)
+			? 'hidden'
+			: 'auto';
+	});
+
+	let prevScrollPosition = 0;
+	window.addEventListener('scroll', () => {
+		if (!nav) return;
+		const navHeight = nav?.clientHeight || 0;
+		const scroll = window.scrollY;
+		const scrolledBack =
+			scroll < prevScrollPosition - navHeight && scroll < prevScrollPosition;
+		const scrolledForward = scroll > navHeight && scroll > prevScrollPosition;
+		if (scroll < navHeight) {
+			nav.style.transform = 'translateY(0) translateX(-50%)';
+			nav.style.backdropFilter = `blur(5px)`;
+			nav.style.backgroundColor = `rgba(var(--white), 0.${scroll})`;
+			nav.style.borderBottom = `rgba(var(--grey), 0) solid 1px`;
+			prevScrollPosition = scroll;
+			return;
+		}
+		if (scrolledBack) {
+			nav.style.transform = 'translateY(0) translateX(-50%)';
+			nav.style.backdropFilter = `blur(5px)`;
+			nav.style.backgroundColor = 'rgba(var(--white), 0.9)';
+			nav.style.borderBottom = `rgba(var(--grey), 0.1) solid 1px`;
+			prevScrollPosition = scroll;
+			return;
+		}
+		if (scrolledForward) {
+			nav.style.transform = `translateY(-${navHeight}px) translateX(-50%)`;
+			prevScrollPosition = scroll;
+			return;
+		}
+	});
+
+	for (let i = 0; i < navLinks.length; i++) {
+		const link = navLinks.item(i);
+		const linkId = link?.getAttribute('id');
+		if (windowLocation === link?.getAttribute('data-pathname') && linkId) {
+			document.getElementById(linkId)?.classList.add('active');
+		}
+	}
+</script>
+
+<nav class='nav' id='nav'>
+	<div class='controls-wrapper'>
+		<Image
+			class='logo'
+			src={SVG_LOGO}
+			alt={'business-logo'}
+			fit={'inside'}
+			format={'svg'}
+			width={1}
+			height={1}
+		/>
+		<menu class='menu' id='nav--menu'>
+			<ul class='ul'>
+				{
+					links.map((link) => (
+						<li>
+							<a
+								data-pathname={link.href}
+								data-highlight='true'
+								data-highlight-color='rgba(var(--grey), 0.1)'
+								href={link.href}
+								id={link.href}
+								class='navigation-links'
+							>
+								{link.text}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+
+			<div class='btn_signup btn_signup--mobile'>
+				<Button background={'--blue'} color={'--white'} height={'3rem'}>
+					Sign Up
+				</Button>
+			</div>
+		</menu>
+		<div class='btn_signup'>
+			<Button background={'--orange'} color={'--white'} height={'3rem'}>
+				Sign Up
+			</Button>
+		</div>
+
+		<div class='open-menu-btn'>
+			<HamburgerMenu id='hamburger-btn' classes='open-menu-btn' />
+		</div>
+	</div>
+</nav>
+
+<style lang='scss'>
+	@use '../sass/mixins.scss' as m;
+	.nav {
+		--padding-block: 0.9rem;
+		width: 100%;
+		padding: 1.2rem 2rem;
+		font-weight: 400;
+		font-size: 1.6rem;
+		z-index: 10;
+		position: fixed;
+		left: 50%;
+		transform: translateX(-50%);
+		transition: all 0.5s ease;
+	}
+	.controls-wrapper {
+		max-width: var(--screen-large);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin: 0 auto;
+	}
+	.logo {
+		width: auto;
+		height: 2rem;
+		opacity: 0.75;
+		padding-left: 1.2rem;
+	}
+	menu {
+		display: flex;
+		align-items: center;
+		margin: 0;
+		padding: 0;
+	}
+
+	.btn_signup {
+		&--mobile {
+			margin-top: 3rem;
+			text-align: center;
+		}
+	}
+
+	.open-menu-btn {
+		display: none;
+		@media screen and (width < 768px) {
+			display: initial;
+		}
+	}
+
+	.ul {
+		display: flex;
+		gap: 6px;
+		& a {
+			border-radius: 5px;
+			color: rgba(var(--grey));
+			padding-inline: 2rem;
+			padding-block: var(--padding-block);
+			height: 100%;
+			width: 100%;
+			transition: all 0.2s ease-in-out, outline-offset 0.3s ease-in-out;
+
+			outline: rgba(var(--grey), 0) solid 2px;
+			outline-offset: -5px;
+
+			box-shadow: inset 0 0 0px 15px rgba(var(--grey), 0),
+				0 0 20px 10px rgba(var(--grey), 0);
+
+			&.active {
+				background-color: rgba(var(--grey), 0.05);
+			}
+
+			@include m.hasHover {
+				color: rgba(var(--black));
+				text-shadow: 0 1px 5px rgba(var(--grey), 0.25);
+				backdrop-filter: blur(50px);
+				box-shadow: inset 0 0 5px 5px rgba(var(--grey), 0.02),
+					0 0 2px 0px rgba(var(--grey), 0.05);
+				background-color: rgba(var(--grey), 0.075);
+				outline: rgba(var(--grey), 0.075) solid 2px;
+				outline-offset: 2px;
+			}
+
+			&:active {
+				color: rgba(var(--black));
+				text-shadow: 0 1px 5px rgba(var(--grey), 0.25);
+				box-shadow: inset 0 0 5px 5px rgba(var(--grey), 0.025),
+					0 0 5px 0px rgba(var(--grey), 0.05);
+				background-color: rgba(var(--grey), 0.15);
+				outline: rgba(var(--grey), 0.065) solid 1px;
+				outline-offset: 1px;
+			}
+		}
+	}
+
+	@media screen and (width < 768px) {
+		.logo {
+			padding-left: 1rem;
+		}
+
+		.btn_signup {
+			display: none;
+			&--mobile {
+				display: block;
+			}
+		}
+
+		.open-menu-btn {
+			display: none;
+			display: initial;
+		}
+
+		menu {
+			display: none;
+			z-index: 100;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			transition: all 0.5s ease;
+			border-top: 1px solid rgba(var(--grey), 0.2);
+
+			& .ul {
+				flex-direction: column;
+				align-items: center;
+				gap: 26px;
+				margin-top: 4rem;
+			}
+
+			&.show {
+				display: block;
+				animation: fadeIn 0.2s ease;
+				animation-fill-mode: forwards;
+
+				@keyframes fadeIn {
+					0% {
+						opacity: 0;
+						transform: translateX(-100%);
+					}
+					100% {
+						opacity: 1;
+						background-color: rgba(var(--white), 0.99);
+					}
+				}
+			}
+		}
+	}
+	@media screen and (width > 768px) {
+		.btn_signup {
+			display: block;
+			&--mobile {
+				display: none;
+			}
+		}
+
+		.open-menu-btn {
+			display: none;
+		}
+	}
+</style>

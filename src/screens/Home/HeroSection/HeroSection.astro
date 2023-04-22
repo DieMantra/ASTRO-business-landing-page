@@ -1,0 +1,243 @@
+---
+import { Image } from '@astrojs/image/components';
+
+import ButtonPrimary from '../../../components/UI/ButtonPrimary.astro';
+import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+import Sponsors from './Sponsors.astro';
+
+const IMG_URL = 'images/backgrounds/computer-graphic.png';
+---
+
+<main>
+	<FuzzyOrbs
+		size={'lg'}
+		blurAmount={75}
+		switchColors={false}
+		rotation={-16}
+		position={{ right: '300px', top: '0px' }}
+	/>
+	<div class='hero'>
+		<article class='article'>
+			<h1>Get More Statistics About Your Business</h1>
+			<p class='article--subtext'>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit Sed leo proin
+				vulputate nullam diam. Quam consectetur.
+			</p>
+			<div class='article__actions'>
+				<ButtonPrimary background={'--blue'} color={'--white'}>
+					Get Started
+				</ButtonPrimary>
+				<a
+					href='#example-video'
+					class='article__actions--example'
+					data-highlight='true'
+					data-highlight-color='rgba(var(--orange), 0.1)'
+				>
+					<div class='article__actions--icon'>
+						<div class='article__actions--icon--inner'></div>
+					</div>
+					<p class='article__actions--paragraph'>See It In Action!</p>
+				</a>
+			</div>
+		</article>
+		<div class='image'>
+			<Image
+				data-highlight='true'
+				data-highlight-color='rgba(var(--blue-light), 0.05)'
+				class='hero-image'
+				width={763}
+				height={544}
+				quality={100}
+				alt={'computer-graphics'}
+				src={IMG_URL}
+			/>
+		</div>
+	</div>
+
+	<Sponsors />
+</main>
+<style lang='scss'>
+	@use '../../../sass/mixins' as m;
+
+	.hero {
+		max-width: var(--screen-large);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		padding-inline: 4rem;
+		margin-bottom: 20rem;
+		margin-top: 12rem;
+		@media screen and (width < 768px) {
+			margin-top: 8rem;
+			margin-bottom: 10rem;
+			padding-inline: 2rem;
+		}
+		& > * {
+			flex: 1 1 50%;
+		}
+	}
+	.article {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		max-width: 66rem;
+		@media screen and (width < 768px) {
+			align-items: center;
+		}
+
+		& h1 {
+			font-size: 7.5rem;
+			line-height: 80px;
+			font-weight: 700;
+			margin-bottom: 2rem;
+
+			@media screen and (width < 768px) {
+				font-size: 5rem;
+				line-height: 48px;
+				text-align: center;
+			}
+		}
+		&--subtext {
+			color: rgba(var(--grey));
+			font-size: 1.6rem;
+			margin-bottom: 4rem;
+		}
+	}
+	.article__actions {
+		display: flex;
+		gap: 4rem;
+		align-items: center;
+		font-size: 1.4rem;
+
+		&--example {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+
+			& p {
+				color: rgba(var(--grey));
+				transition: all 0.2s ease-in-out;
+			}
+		}
+		// HOVER EXAMPLE
+		&--example {
+			@include m.hasHover {
+				& p {
+					color: var(--black);
+					text-shadow: 0 2px 4px rgba(var(--black), 0.1);
+				}
+				& .article__actions--icon {
+					transform: translateY(-2px);
+					&::after {
+						height: 100%;
+						border-radius: 5px;
+					}
+					&::before {
+						width: 100%;
+						border-radius: 5px;
+						border-bottom: 1px solid rgba(var(--orange));
+					}
+					&--inner {
+						&::after {
+							transform: rotate(90deg) scale(1.4);
+						}
+					}
+				}
+			}
+		}
+		&--icon {
+			--size: 3rem;
+			--color: rgba(var(--orange));
+			height: var(--size);
+			width: var(--size);
+			position: relative;
+			translate: 0px 2px;
+			transition: all 0.2s ease;
+			&::after,
+			&::before {
+				content: '';
+				position: absolute;
+				transition: all 0.3s ease-in-out;
+				transform: translate(-50%, -50%);
+				top: 50%;
+				left: 50%;
+				border-radius: 0px;
+			}
+			&::after {
+				height: 0;
+
+				width: 100%;
+				border-left: 1px solid var(--color);
+				border-right: 1px solid var(--color);
+			}
+			&::before {
+				height: 100%;
+				width: 50%;
+				border-bottom: 1px solid transparent;
+				border-top: 1px solid var(--color);
+			}
+
+			&--inner {
+				position: absolute;
+				border-radius: 3px;
+				transform: translate(-50%, -50%);
+				top: 50%;
+				left: 50%;
+				width: 80%;
+				height: 60%;
+				background-color: rgba(var(--blue));
+				z-index: 2;
+				box-shadow: 0 8px 15px 8px rgba(var(--blue), 0.1);
+				transition: all 0.2s ease-in-out;
+
+				&::after {
+					content: '';
+					transition: all 0.2s ease-in-out;
+					position: absolute;
+					translate: calc(-50% + 1px) -50%;
+					top: 50%;
+					left: 50%;
+					width: 0;
+					height: 0;
+					border-left: 3px solid transparent;
+					border-right: 3px solid transparent;
+					border-bottom: 6px solid rgba(var(--white));
+					transform: rotate(90deg);
+				}
+			}
+		}
+	}
+
+	.image {
+		max-width: 60rem;
+		min-width: 30rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		@media screen and (width < 768px) {
+			position: absolute;
+			z-index: -1;
+			top: 0;
+			right: 0;
+			opacity: 0.1;
+
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+			}
+		}
+	}
+	.hero-image {
+		width: 100%;
+		height: auto;
+		object-fit: contain;
+		image-rendering: optimizeSpeed;
+	}
+</style>

@@ -1,0 +1,20 @@
+@forward 'reset';
+@import 'transitions';
+@import 'shadows';
+@import 'colors';
+@import 'sizes';
+@font-face {
+	font-family: 'rubik';
+	src: url('/Rubik-VariableFont_wght.ttf') format('truetype-variations');
+	font-weight: 100 900;
+	font-stretch: 50% 200%;
+	font-style: normal;
+}
+
+body {
+	background-color: rgba(var(--body-white));
+}
+
+// * {
+// 	outline: 1px solid rgba(89, 89, 89, 0.471);
+// }

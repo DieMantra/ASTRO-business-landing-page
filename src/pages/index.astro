@@ -1,0 +1,18 @@
+---
+import Navigation from '../components/Navigation.astro';
+
+import PageLayout from '../layouts/PageLayout.astro';
+import HeroSection from '../screens/Home/HeroSection/HeroSection.astro';
+import OptionDescriptionSection from '../screens/Home/OptionDescriptionSection/index.astro';
+import OurFeaturesSection from '../screens/Home/OurFeaturesSection/index.astro';
+const PAGE_TITLE = 'LW.G | Statistic About Your Business';
+---
+
+<!-- landing page -->
+<PageLayout title={PAGE_TITLE}>
+	<Navigation />
+	<HeroSection />
+	<OurFeaturesSection />
+	<OptionDescriptionSection />
+</PageLayout>
+<style lang='scss'></style>

@@ -1,0 +1,85 @@
+---
+import ButtonPrimary from '../../../components/UI/ButtonPrimary.astro';
+import FadeIntoView from '../../../components/UI/FadeIntoView.astro';
+import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+---
+
+<section>
+	<FuzzyOrbs
+		position={{
+			top: '250px',
+			left: '50%',
+		}}
+		rotation={-30}
+		blurAmount={54}
+	/>
+	<div class='left'>
+		<FadeIntoView blur={10} translateX={'-50px'} pixelsInViewDistance={100}>
+			<h1 class='heading'>Need to know what option and does</h1>
+		</FadeIntoView>
+		<FadeIntoView blur={10} translateX={'-70px'} pixelsInViewDistance={100}>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua.
+				<br />
+				<br />
+				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+				aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+				voluptate velit esse cillum dolore eu fugiat
+				<br />
+				<br />
+				nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+				qui officia deserunt mollit anim id est laborum
+			</p>
+		</FadeIntoView>
+
+		<FadeIntoView blur={10} translateY={'5px'} pixelsInViewDistance={10}>
+			<ButtonPrimary background={'--blue'} color={'--white'}>
+				Read more
+			</ButtonPrimary>
+		</FadeIntoView>
+	</div>
+	<FadeIntoView blur={10} translateX={'100%'} pixelsInViewDistance={150}>
+		<div class='right'>safsaf</div>
+	</FadeIntoView>
+</section>
+
+<style lang='scss'>
+	section * {
+		// border: 1px solid rgba(0, 0, 0, 0.2);
+	}
+
+	section {
+		position: relative;
+		max-width: var(--screen-medium);
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1.2fr 1fr;
+		gap: 6rem;
+		margin-bottom: 20rem;
+	}
+
+	.left {
+		h1 {
+			font-size: 3.4rem;
+			color: rgba(var(--blue-dark));
+			font-weight: 400;
+			margin: 0;
+			margin-bottom: 2rem;
+		}
+
+		p {
+			font-size: 1.4rem;
+			line-height: 1.5;
+			color: rgba(var(--grey), 0.8);
+		}
+	}
+
+	.right {
+		background-color: rgba(var(--white), 0.5);
+		backdrop-filter: blur(10px);
+		border-radius: 5px;
+		box-shadow: var(--shadow-1);
+		background-color: red;
+	}
+</style>

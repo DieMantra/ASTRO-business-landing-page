@@ -1,0 +1,92 @@
+/* 
+  THEMING
+*/
+@mixin dark {
+	html[data-theme='dark'] & {
+		@content;
+	}
+}
+@mixin dark-hover {
+	html[data-theme='dark'] &:hover {
+		@content;
+	}
+}
+@mixin dark-active {
+	html[data-theme='dark'] &:active {
+		@content;
+	}
+}
+
+/* 
+  DEVICE TARGETING
+*/
+@mixin hasHover {
+	@media (hover: hover) {
+		&:hover {
+			@content;
+		}
+	}
+}
+@mixin hasFocus {
+	&:focus-within {
+		@content;
+	}
+}
+
+@mixin mobile-down {
+	@media screen and (width < 768px) {
+		@content;
+	}
+}
+@mixin mobile-up {
+	@media screen and (width > 768px) {
+		@content;
+	}
+}
+@mixin tablet-down {
+	@media screen and (width < 1024px) {
+		@content;
+	}
+}
+
+@mixin tablet-up {
+	@media screen and (width > 1024px) {
+		@content;
+	}
+}
+
+@mixin desktop-down {
+	@media screen and (width < 1440px) {
+		@content;
+	}
+}
+
+@mixin desktop-up {
+	@media screen and (width > 1440px) {
+		@content;
+	}
+}
+
+/* 
+  DEFAULT UI HIDERS
+*/
+@mixin hideScrollBar {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+@mixin hideAutoFill($backgroundColor) {
+	&:-webkit-autofill {
+		box-shadow: 0 0 0px 1000px $backgroundColor inset;
+		-webkit-box-shadow: 0 0 0px 1000px $backgroundColor inset;
+	}
+
+	&:-webkit-autofill:focus {
+		box-shadow: 0 0 0px 1000px $backgroundColor inset;
+		-webkit-box-shadow: 0 0 0px 1000px $backgroundColor inset;
+	}
+}

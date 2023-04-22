@@ -1,0 +1,140 @@
+---
+import FadeIntoView from '../../../components/UI/FadeIntoView.astro';
+import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+import FeatureCard from './FeatureCard.astro';
+
+interface Features {
+	title: string;
+	buttonText: string;
+	colorScheme: 'blue' | 'white';
+	content: string;
+	backSideTitle: string;
+	backSideContent: string;
+}
+
+const FEATURES: Features[] = [
+	{
+		title: 'Quick Response',
+		buttonText: 'Read More',
+		colorScheme: 'white',
+		content:
+			'Get quick responses to your questions and concerns with our 24/7 customer support team.',
+		backSideTitle: '24/7 Customer Support',
+		backSideContent:
+			'Our team is always available to help you with any questions or concerns you may have, day or night.',
+	},
+	{
+		title: 'Business Idea',
+		buttonText: 'Read More',
+		colorScheme: 'blue',
+		content:
+			'Explore new business ideas and strategies with our expert advice and guidance.',
+		backSideTitle: 'Expert Business Advice',
+		backSideContent:
+			'Our team of experienced business professionals can help guide you towards success with personalized advice and strategies tailored to your unique situation.',
+	},
+	{
+		title: 'Chas - Back',
+		buttonText: 'Read More',
+		colorScheme: 'white',
+		content:
+			'Access your accounts and manage your finances easily with our intuitive mobile app.',
+		backSideTitle: 'Mobile Banking Made Easy',
+		backSideContent:
+			'Our mobile app allows you to securely manage your accounts from anywhere, with features like mobile check deposit, bill pay, and more.',
+	},
+];
+---
+
+<FadeIntoView
+	pixelsInViewDistance={100}
+	transitionSpeedMs={750}
+	translateY={'30px'}
+>
+	<section class='our-features_wrapper'>
+		<FuzzyOrbs
+			rotation={166}
+			size='md'
+			blurAmount={40}
+			position={{
+				top: '200px',
+				left: '-80px',
+			}}
+		/>
+		<FuzzyOrbs
+			rotation={200}
+			size='md'
+			blurAmount={55}
+			position={{
+				top: '-10px',
+				right: '180px',
+			}}
+		/>
+		<div class='max-width-protector'>
+			<div class='heading_wrapper'>
+				<h1>Our Features</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+					minim veniam.
+				</p>
+			</div>
+			<div class='card_wrapper'>
+				{
+					FEATURES.map((feature) => (
+						<FeatureCard
+							title={feature.title}
+							content={feature.content}
+							backSideTitle={feature.backSideTitle}
+							backSideContent={feature.backSideContent}
+							buttonText={feature.buttonText}
+							colorScheme={feature.colorScheme}
+						/>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</FadeIntoView>
+
+<style lang='scss'>
+	.our-features_wrapper {
+		position: relative;
+		margin-top: 12rem;
+		margin-bottom: 18rem;
+
+		& .max-width-protector {
+			max-width: var(--screen-medium);
+			margin: 0 auto;
+		}
+	}
+	.heading_wrapper {
+		padding-inline: 2rem;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		h1 {
+			font-size: 5rem;
+			font-weight: 700;
+			color: var(--blue-dark);
+			margin-bottom: 1rem;
+		}
+		p {
+			font-size: 1.5rem;
+			font-weight: 400;
+			color: rgba(var(--grey));
+			margin-bottom: 6rem;
+			max-width: 65ch;
+		}
+	}
+
+	.card_wrapper {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		align-items: center;
+		justify-items: center;
+		gap: 2rem;
+		padding-inline: 2rem;
+	}
+</style>

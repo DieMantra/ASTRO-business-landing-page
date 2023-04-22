@@ -1,0 +1,61 @@
+---
+interface Props {
+	color: '--white' | '--black' | '--orange';
+	background: '--white' | '--black' | '--orange' | '--blue';
+	height?: `${number}px` | `${number}rem` | `${number}em`;
+	fontSize?: `${number}px` | `${number}rem` | `${number}em`;
+	classes?: string[];
+	id?: string;
+}
+
+const {
+	color,
+	background,
+	height = '3.6rem',
+	fontSize = 'inherit',
+	classes = [],
+	id = '',
+} = Astro.props;
+
+const textColor = `var(${color})`;
+const backgroundColor = `var(${background})`;
+---
+
+<button
+	class:list={['custom_button', ...classes]}
+	id={id}
+	data-highlight='true'
+	data-highlight-color={`rgba(${backgroundColor}, 0.5)`}
+>
+	<slot />
+</button>
+
+<style
+	lang='scss'
+	define:vars={{ textColor, backgroundColor, height, fontSize }}
+>
+	@use '../../sass/mixins' as m;
+	.custom_button {
+		--padding-block: 0.9rem;
+		color: rgba(var(--textColor));
+		background-color: rgba(var(--backgroundColor));
+		text-shadow: 0 1px 3px rgba(var(--black), 0.25);
+		text-align: center;
+		border-radius: 50px;
+		padding-inline: 2.4rem;
+		min-height: var(--height);
+		padding-block: var(--padding-block);
+		transition: all 0.2s ease-in-out;
+		font-size: var(--fontSize);
+		outline: rgba(var(--backgroundColor), 0) solid 2px;
+		outline-offset: -5px;
+		box-shadow: 0px 15px 23px -6px rgba(var(--backgroundColor), 0.44);
+		@include m.hasHover {
+			box-shadow: 0 0 15px 1px rgba(var(--backgroundColor), 0.5),
+				0 0 2px 1px rgba(var(--black), 0.1);
+
+			outline: rgba(var(--backgroundColor), 0.5) solid 2px;
+			outline-offset: 2px;
+		}
+	}
+</style>

@@ -1,0 +1,167 @@
+<div id='blob'></div>
+<script>
+	const body = document.getElementById('body');
+	const blob = document.getElementById('blob');
+	let isMouseOver = false;
+	let x: number, y: number;
+	let blobCenterX: number, blobCenterY: number;
+	function calculateBlobCenter() {
+		if (blob) {
+			const { width, height } = blob.getBoundingClientRect();
+			blobCenterX = width / 4;
+			blobCenterY = height / 2;
+		}
+	}
+	calculateBlobCenter();
+	function findMousePosition(e: MouseEvent): { x: number; y: number } {
+		if (blob) {
+			x = e.clientX - blobCenterX;
+			y = e.clientY + window.scrollY - blobCenterY;
+		}
+		return { x, y };
+	}
+	window.addEventListener('scroll', () => {
+		calculateBlobCenter();
+		// const scroll = window.scrollY;
+		// const windowHeight = document.body.clientHeight - window.innerHeight;
+		// let amountScrolled = +((scroll / windowHeight) * 100).toFixed(0);
+		// if (blob) {
+		// 	blob.classList.forEach((classItem) => {
+		// 		if (classItem.startsWith('scroll-')) {
+		// 			blob.classList.remove(classItem);
+		// 		}
+		// 	});
+		// 	blob.classList.add(`scroll-${amountScrolled}`);
+		// }
+	});
+	window.addEventListener('mousemove', (e: MouseEvent) => {
+		if (isMouseOver) return;
+		const { x, y } = findMousePosition(e);
+		if (blob) {
+			blob.style.transform = `translate(${x}px, ${y}px)`;
+		}
+	});
+	body?.addEventListener('mouseleave', () => {
+		if (blob) {
+			blob.style.opacity = '0';
+		}
+	});
+	body?.addEventListener('mouseenter', (e: MouseEvent) => {
+		const { x, y } = findMousePosition(e);
+		if (blob) {
+			blob.style.opacity = '1';
+			blob.style.transform = `translate(${x}px, ${y}px)`;
+		}
+	});
+	window.addEventListener('resize', calculateBlobCenter);
+	window.addEventListener('mouseup', (e: MouseEvent) => {
+		const { x, y } = findMousePosition(e);
+		if (blob) {
+			blob.style.transform = `translate(${x}px, ${y}px)`;
+			blob.style.borderWidth = '10px';
+			blob.style.width = '8rem';
+			blob.style.height = '8rem';
+			blob.style.opacity = '1';
+		}
+	});
+	window.addEventListener('mousedown', (e: MouseEvent) => {
+		const { x, y } = findMousePosition(e);
+		if (blob) {
+			blob.style.transform = `translate(${x}px, ${y}px) scale(5)`;
+			blob.style.opacity = '0';
+			blob.style.borderWidth = '20px';
+		}
+	});
+	body?.addEventListener('mouseover', (e: MouseEvent) => {
+		const target = (e.target as HTMLElement) || undefined;
+		const parent = (target.parentElement as HTMLElement) || undefined;
+		if (!target && !parent) return;
+		const targetHasHighlight = target.hasAttribute('data-highlight');
+		const parentHasHighlight = parent?.hasAttribute('data-highlight');
+		if ((targetHasHighlight || parentHasHighlight) && blob) {
+			isMouseOver = true;
+
+			const highlightColor = targetHasHighlight
+				? target.attributes.getNamedItem('data-highlight-color')?.value
+				: parent.attributes.getNamedItem('data-highlight-color')?.value;
+
+			const { top, left, width, height } = targetHasHighlight
+				? target.getBoundingClientRect()
+				: parent.getBoundingClientRect();
+			const newLeft = left + 20 + window.scrollX;
+			const newTop = top + window.scrollY;
+			blob.style.width = `${width}px`;
+			blob.style.height = `${height}px`;
+			blob.style.transform = `translate(${newLeft}px, ${newTop}px)`;
+			blob.style.borderRadius = '10px';
+			blob.style.backgroundColor = highlightColor || 'rgba(var(--orange), 0.5)';
+			blob.style.borderColor = highlightColor || 'rgba(var(--orange), 0.5)';
+			return;
+		}
+		if (blob) {
+			isMouseOver = false;
+			const { x, y } = findMousePosition(e);
+			blob.style.transform = `translate(${x}px, ${y}px)`;
+			blob.style.width = '8rem';
+			blob.style.height = '8rem';
+			blob.style.borderRadius = '50%';
+			blob.style.borderColor = 'rgba(var(--orange), 0.25)';
+			blob.style.backgroundColor = '';
+		}
+	});
+</script>
+
+<style lang='scss'>
+	#blob {
+		transition: all 0.25s cubic-bezier(0.81, 0.8, 0.47, 0.77), opacity 1s,
+			border 5s linear, width 0.5s, height 0.5s,
+			scale 0.5s cubic-bezier(0, 0.64, 1, 0.92), border-color 0.5s ease-out;
+		width: 8rem;
+		height: 8rem;
+		border: 15px solid rgba(var(--orange), 0.25);
+		filter: blur(15px);
+		opacity: 0;
+		border-radius: 50%;
+		position: absolute;
+		top: 0px;
+		left: -20px;
+		z-index: -1;
+		user-select: none;
+		pointer-events: none;
+
+		$rounds: 4; // how many times to repeat the loop (100% / 25%
+		$divider: calc(
+			100 / $rounds
+		); // how many ranges to divide the color spectrum into
+		@for $j from 1 through $rounds {
+			$top: round($divider * $j);
+			$bottom: round($top - $divider);
+			@for $i from $bottom through $top {
+				$offset: calc($j - 1) *
+					$divider; // calculate the offset for the current range
+				$index: $i - $offset; // calculate the index within the current range
+				$percentage: calc($index / $divider) * 100;
+				$color: rgba(var(--orange));
+				@if $percentage >= 0 {
+					@if $percentage <= 100 {
+						$color: rgba(var(--blue-light), 0.5);
+					}
+					@if $percentage <= 50 {
+						$color: rgba(var(--orange), 0.5);
+					}
+				}
+				&.scroll-#{$i} {
+					border-color: $color;
+				}
+			}
+		}
+	}
+
+	body {
+		margin: 0 auto;
+		&.overflow-protector {
+			overflow-x: hidden;
+			position: relative;
+		}
+	}
+</style>

@@ -1,0 +1,117 @@
+---
+interface Props {
+	id: string;
+	classes?: string;
+}
+const { id, classes } = Astro.props;
+
+const TIME_IN = '0.75s';
+const TIME_OUT = '1.5s';
+---
+
+<button
+	id={id}
+	class={`hamburger-btn ${classes}`}
+	data-highlight='true'
+	data-highlight-color='--blue-light'
+>
+	<span></span>
+	<span></span>
+	<span></span>
+</button>
+<script define:vars={{ id }}>
+	const hamburgerBtn = document.getElementById(id);
+	hamburgerBtn.addEventListener('click', () => {
+		const isActive = hamburgerBtn.classList.contains('is-active');
+		if (isActive) {
+			hamburgerBtn.classList.remove('is-active');
+			hamburgerBtn.classList.add('is-not-active');
+		} else {
+			hamburgerBtn.classList.add('is-active');
+			hamburgerBtn.classList.remove('is-not-active');
+		}
+	});
+</script>
+<style lang='scss' define:vars={{ TIME_IN, TIME_OUT }}>
+	@use '../../sass/mixins' as m;
+	button {
+		--height: 40px;
+		--width: 40px;
+		background-color: transparent;
+		border: 0;
+		cursor: pointer;
+		border-radius: 50%;
+		width: var(--width);
+		height: var(--height);
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		gap: 5px;
+		outline: 2px solid transparent;
+
+		@include m.hasHover {
+			background-color: rgba(var(--grey-light), 1);
+		}
+
+		& span {
+			width: 50%;
+			height: 1px;
+			background-color: rgba(var(--grey));
+			// position: absolute;
+			transform-origin: center;
+			transition: all var(--TIME_IN) ease;
+		}
+
+		&:focus-within {
+			outline: 2px solid;
+			outline-color: rgba(var(--grey), 0.1);
+			background-color: transparent;
+		}
+
+		&.is-active {
+			animation: clicked-1 ease;
+			animation-iteration-count: 1;
+			animation-duration: var(--TIME_IN);
+			background-color: rgba(var(--grey-light), 1);
+
+			& span {
+				--positive: calc(var(--height) / 7);
+				--negative: calc(var(--height) / 7 * -1);
+				&:nth-child(1) {
+					transform: translateY(var(--positive)) rotate(45deg);
+				}
+				&:nth-child(2) {
+					transition: transform 0.3s ease;
+					width: 10%;
+					opacity: 0;
+					transform: rotate(360deg);
+				}
+				&:nth-child(3) {
+					transform: translateY(var(--negative)) rotate(-45deg);
+				}
+			}
+		}
+		&.is-not-active {
+			animation: clicked-2 ease;
+			animation-iteration-count: 1;
+			animation-duration: var(--TIME_OUT);
+		}
+
+		@for $i from 1 through 2 {
+			@keyframes clicked-#{$i} {
+				0% {
+					background-color: rgba(var(--grey), 1);
+					outline-color: rgba(var(--grey), 0.5);
+				}
+				50% {
+					background-color: rgba(var(--grey-light), 1);
+				}
+				100% {
+					outline-color: rgba(var(--grey), 0.1);
+				}
+			}
+		}
+	}
+</style>

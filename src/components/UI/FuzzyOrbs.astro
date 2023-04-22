@@ -1,0 +1,119 @@
+---
+interface Props {
+	rotation?: number;
+	size?: 'sm' | 'md' | 'lg';
+	blurAmount?: number;
+	position?: {
+		top?:
+			| `${string}${'px' | 'rem' | 'em' | 'vw' | 'vh' | '%'}`
+			| 'true'
+			| 'false';
+		right?:
+			| `${string}${'px' | 'rem' | 'em' | 'vw' | 'vh' | '%'}`
+			| 'true'
+			| 'false';
+		bottom?:
+			| `${string}${'px' | 'rem' | 'em' | 'vw' | 'vh' | '%'}`
+			| 'true'
+			| 'false';
+		left?:
+			| `${string}${'px' | 'rem' | 'em' | 'vw' | 'vh' | '%'}`
+			| 'true'
+			| 'false';
+	};
+	switchColors?: boolean;
+}
+const {
+	switchColors = false,
+	rotation = 17,
+	size = 'md',
+	blurAmount = 45,
+	position = { top: 0, left: 0, right: 0, bottom: 0 },
+} = Astro.props;
+const orbSizes = {
+	width: {
+		sm: 8,
+		md: 15,
+		lg: 25,
+	},
+	height: {
+		sm: 10,
+		md: 25,
+		lg: 40,
+	},
+} as const;
+
+const color1 = `rgba(var(${switchColors ? '--blue' : '--orange'}), ${
+	switchColors ? '0.26' : '0.52'
+})`;
+const color2 = `rgba(var(${switchColors ? '--orange' : '--blue'}), ${
+	switchColors ? '0.52' : '0.26'
+})`;
+const rotation1 = `${rotation}deg`;
+const rotation2 = `${rotation - 4}deg`;
+const width = `${orbSizes.width[size]}rem`;
+const height = `${orbSizes.height[size]}rem`;
+const blur = `${blurAmount}px`;
+const top = position.top === 'true' ? 0 : position.top;
+const bottom =
+	position.bottom === 'true' ? `${orbSizes.height[size]}rem` : position.bottom;
+const left = position.left === 'true' ? 0 : position.left;
+const right =
+	position.right === 'true' ? `${orbSizes.width[size] * 2}rem` : position.right;
+---
+
+<div class='container'>
+	<div class='orb orb--1'></div>
+	<div class='orb orb--2'></div>
+</div>
+
+<style
+	lang='scss'
+	define:vars={{
+		rotation1,
+		rotation2,
+		height,
+		width,
+		blur,
+		left,
+		top,
+		right,
+		bottom,
+		color1,
+		color2,
+	}}
+>
+	.container {
+		z-index: -1;
+		padding: 0;
+		margin: 0;
+		display: inline-block;
+		position: absolute;
+		top: var(--top);
+		left: var(--left);
+		right: var(--right);
+		bottom: var(--bottom);
+	}
+	.orb {
+		border-radius: 50%;
+		position: absolute;
+		width: var(--width);
+		height: var(--height);
+		filter: blur(var(--blur));
+
+		&--1 {
+			background-color: var(--color1);
+			top: 7rem;
+			left: 0;
+			left: 2rem;
+			width: var(--width);
+			rotate: var(--rotation1);
+		}
+		&--2 {
+			background-color: var(--color2);
+			width: var(--width);
+			left: calc(var(--width) - 6rem);
+			rotate: var(--rotation2);
+		}
+	}
+</style>
