@@ -5,6 +5,14 @@
 	let isMouseOver = false;
 	let x: number, y: number;
 	let blobCenterX: number, blobCenterY: number;
+
+	const blobWidth = '8rem';
+	const blobHeight = '8rem';
+	const blobBorderColor = '';
+	const blobBackgroundColor = '';
+	const blobBorderRadius = '50%';
+	const blobBorderWidth = '10px';
+
 	function calculateBlobCenter() {
 		if (blob) {
 			const { width, height } = blob.getBoundingClientRect();
@@ -20,20 +28,32 @@
 		}
 		return { x, y };
 	}
-	window.addEventListener('scroll', () => {
-		calculateBlobCenter();
-		// const scroll = window.scrollY;
-		// const windowHeight = document.body.clientHeight - window.innerHeight;
-		// let amountScrolled = +((scroll / windowHeight) * 100).toFixed(0);
-		// if (blob) {
-		// 	blob.classList.forEach((classItem) => {
-		// 		if (classItem.startsWith('scroll-')) {
-		// 			blob.classList.remove(classItem);
-		// 		}
-		// 	});
-		// 	blob.classList.add(`scroll-${amountScrolled}`);
-		// }
-	});
+	function resetBlob(x: number, y: number) {
+		if (blob) {
+			blob.style.transform = `translate(${x}px, ${y}px)`;
+			blob.style.borderWidth = blobBorderWidth;
+			blob.style.borderRadius = blobBorderRadius;
+			blob.style.width = blobWidth;
+			blob.style.height = blobHeight;
+			blob.style.opacity = '1';
+			blob.style.borderColor = blobBorderColor;
+			blob.style.backgroundColor = blobBackgroundColor;
+		}
+	}
+	// window.addEventListener('scroll', () => {
+	// calculateBlobCenter();
+	// const scroll = window.scrollY;
+	// const windowHeight = document.body.clientHeight - window.innerHeight;
+	// let amountScrolled = +((scroll / windowHeight) * 100).toFixed(0);
+	// if (blob) {
+	// 	blob.classList.forEach((classItem) => {
+	// 		if (classItem.startsWith('scroll-')) {
+	// 			blob.classList.remove(classItem);
+	// 		}
+	// 	});
+	// 	blob.classList.add(`scroll-${amountScrolled}`);
+	// }
+	// });
 	window.addEventListener('mousemove', (e: MouseEvent) => {
 		if (isMouseOver) return;
 		const { x, y } = findMousePosition(e);
@@ -57,11 +77,7 @@
 	window.addEventListener('mouseup', (e: MouseEvent) => {
 		const { x, y } = findMousePosition(e);
 		if (blob) {
-			blob.style.transform = `translate(${x}px, ${y}px)`;
-			blob.style.borderWidth = '10px';
-			blob.style.width = '8rem';
-			blob.style.height = '8rem';
-			blob.style.opacity = '1';
+			resetBlob(x, y);
 		}
 	});
 	window.addEventListener('mousedown', (e: MouseEvent) => {
@@ -101,12 +117,7 @@
 		if (blob) {
 			isMouseOver = false;
 			const { x, y } = findMousePosition(e);
-			blob.style.transform = `translate(${x}px, ${y}px)`;
-			blob.style.width = '8rem';
-			blob.style.height = '8rem';
-			blob.style.borderRadius = '50%';
-			blob.style.borderColor = 'rgba(var(--orange), 0.25)';
-			blob.style.backgroundColor = '';
+			resetBlob(x, y);
 		}
 	});
 </script>

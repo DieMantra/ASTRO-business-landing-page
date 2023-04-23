@@ -2,20 +2,46 @@
 import ButtonPrimary from '../../../components/UI/ButtonPrimary.astro';
 import FadeIntoView from '../../../components/UI/FadeIntoView.astro';
 import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+
+const OPTIONS = [
+	{
+		title: 'Effective Solutions',
+		description: 'We provide the most effective solutions for your needs.',
+	},
+	{
+		title: 'Expert Team',
+		description:
+			'Our team of experts has the knowledge and skills to help you succeed.',
+	},
+	{
+		title: 'Friendly Consultation',
+		description:
+			'Our friendly consultants are here to help you every step of the way.',
+	},
+	{
+		title: 'Lifetime Support',
+		description: 'We offer lifetime support to ensure your long-term success.',
+	},
+	{
+		title: 'Experienced in Our Field',
+		description:
+			'With years of experience in our field, we are the best choice for your needs.',
+	},
+];
 ---
 
 <section>
 	<FuzzyOrbs
 		position={{
-			top: '250px',
-			left: '50%',
+			top: '450px',
+			left: '40%',
 		}}
 		rotation={-30}
 		blurAmount={54}
 	/>
 	<div class='left'>
 		<FadeIntoView blur={10} translateX={'-50px'} pixelsInViewDistance={100}>
-			<h1 class='heading'>Need to know what option and does</h1>
+			<h1 class='heading'>Need To Know What Option And Does</h1>
 		</FadeIntoView>
 		<FadeIntoView blur={10} translateX={'-70px'} pixelsInViewDistance={100}>
 			<p>
@@ -34,22 +60,43 @@ import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
 		</FadeIntoView>
 
 		<FadeIntoView blur={10} translateY={'5px'} pixelsInViewDistance={10}>
-			<ButtonPrimary background={'--blue'} color={'--white'}>
+			<ButtonPrimary
+				background={'--blue'}
+				color={'--white'}
+				fontSize={'1.2rem'}
+			>
 				Read more
 			</ButtonPrimary>
 		</FadeIntoView>
 	</div>
 	<FadeIntoView blur={10} translateX={'100%'} pixelsInViewDistance={150}>
-		<div class='right'>safsaf</div>
+		<div class='right'>
+			<ol>
+				{
+					OPTIONS.map((option, i) => (
+						<li>
+							<span class='counter'>{i + 1}.</span>
+							<div class='li-content'>
+								<h2>{option.title}</h2>
+								<p>{option.description}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
 	</FadeIntoView>
 </section>
 
 <style lang='scss'>
-	section * {
+	section *,
+	section {
 		// border: 1px solid rgba(0, 0, 0, 0.2);
 	}
 
 	section {
+		--padding-top: 3rem;
+
 		position: relative;
 		max-width: var(--screen-medium);
 		margin: 0 auto;
@@ -60,26 +107,76 @@ import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
 	}
 
 	.left {
+		padding-top: var(--padding-top);
 		h1 {
 			font-size: 3.4rem;
 			color: rgba(var(--blue-dark));
-			font-weight: 400;
+			font-weight: 500;
 			margin: 0;
-			margin-bottom: 2rem;
+			margin-bottom: 3rem;
 		}
 
 		p {
 			font-size: 1.4rem;
 			line-height: 1.5;
 			color: rgba(var(--grey), 0.8);
+			margin-bottom: 4rem;
 		}
 	}
 
 	.right {
-		background-color: rgba(var(--white), 0.5);
-		backdrop-filter: blur(10px);
-		border-radius: 5px;
-		box-shadow: var(--shadow-1);
-		background-color: red;
+		// background-color: rgba(var(--white), 0.7);
+		background-image: linear-gradient(
+			45deg,
+			rgba(var(--white), 0.45) 0%,
+			rgba(var(--white), 0.75) 100%
+		);
+		backdrop-filter: blur(50px);
+		border-radius: 10px;
+		border: 1px solid rgba(var(--grey), 0.05);
+		box-shadow: 10px -5px 15px 0px rgba(0, 0, 0, 0.02),
+			0px 0px 5px 3px rgba(0, 0, 0, 0.01);
+
+		ol {
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+			margin: 0;
+			padding-top: var(--padding-top);
+			padding-inline: 3rem;
+			padding-bottom: 3.5rem;
+			width: 100%;
+			list-style: none;
+			--font-size: 2rem;
+			--font-weight: 600;
+
+			counter-reset: my-counter;
+			list-style: none;
+			li {
+				display: flex;
+				flex-direction: row;
+				align-items: top;
+
+				.counter {
+					margin-right: 2rem;
+					font-size: var(--font-size);
+					font-weight: var(--font-weight);
+				}
+				.li-content {
+					display: flex;
+					flex-direction: column;
+					h2 {
+						margin: 0;
+						font-size: var(--font-size);
+						font-weight: var(--font-weight);
+					}
+					p {
+						font-size: 1.4rem;
+						font-weight: 300;
+						color: rgba(var(--grey), 0.8);
+					}
+				}
+			}
+		}
 	}
 </style>
