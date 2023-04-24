@@ -1,0 +1,127 @@
+---
+import { Image } from '@astrojs/image/components';
+import Calendar from '../../../components/SVGs/Calendar.astro';
+import FlipCard from '../../../components/UI/FlipCard.astro';
+const CALENDER_ICON = '/images/icons/calendar.svg';
+
+interface CARD {
+	iconUrl: string;
+	date: string;
+	content: string;
+	link: {
+		text: string;
+		url: string;
+	};
+	colorScheme: 'white' | 'blue';
+	flip: boolean;
+}
+
+const CARD_CONTENT: CARD[] = [
+	{
+		iconUrl: '/images/icons/person.svg',
+		date: '03-30-2021',
+		content:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+		link: {
+			text: 'Read More',
+			url: 'https://www.google.com',
+		},
+		colorScheme: 'white',
+		flip: false,
+	},
+	{
+		iconUrl: '/images/icons/chartLineUp.svg',
+		date: '03-30-2021',
+		content:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+		link: {
+			text: 'Read More',
+			url: 'https://www.google.com',
+		},
+		colorScheme: 'blue',
+		flip: false,
+	},
+	{
+		iconUrl: '/images/icons/something.svg',
+		date: '03-30-2021',
+		content:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+		link: {
+			text: 'Read More',
+			url: 'https://www.google.com',
+		},
+		colorScheme: 'white',
+		flip: false,
+	},
+];
+---
+
+<section>
+	{
+		CARD_CONTENT.map((card) => (
+			<FlipCard buttonText='' colorScheme={card.colorScheme} isFlip={card.flip}>
+				<div slot='front' class={('wrapper ', 'wrapper--' + card.colorScheme)}>
+					<img src={card.iconUrl} />
+					<div class='calendar-wrapper'>
+						<Calendar
+							height={'1.8rem'}
+							stroke={
+								card.colorScheme === 'white'
+									? 'rgb(var(--grey))'
+									: 'rgb(var(--grey-light))'
+							}
+						/>
+						<date>{card.date}</date>
+					</div>
+					<p>{card.content}</p>
+					<a target='_blank' href={card.link.url}>
+						{card.link.text}
+					</a>
+				</div>
+			</FlipCard>
+		))
+	}
+</section>
+
+<style lang='scss'>
+	section {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		margin: 0 auto;
+		max-width: var(--screen-medium);
+	}
+
+	.calendar-wrapper {
+		display: flex;
+		align-items: center;
+		date {
+			margin-left: 0.5rem;
+			font-size: 2rem;
+			font-weight: 200;
+		}
+	}
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		img {
+			align-self: flex-start;
+		}
+
+		&--blue {
+			.calendar-wrapper {
+				date {
+					color: rgb(var(--white));
+				}
+			}
+		}
+
+		&--white {
+			.calendar-wrapper {
+				date {
+					color: rgb(var(--grey));
+				}
+			}
+		}
+	}
+</style>

@@ -1,0 +1,27 @@
+---
+interface Props {
+	fill?: string;
+	stroke?: string;
+	width?: string;
+	height?: string;
+}
+
+const { fill = 'none', stroke = '#767676', height, width }: Props = Astro.props;
+---
+
+<svg
+	width={width || '28'}
+	height={height || '27'}
+	viewBox='0 0 28 27'
+	fill={fill}
+	xmlns='http://www.w3.org/2000/svg'
+>
+	<path
+		d='M21.6351 1.38818V6.77125M1 4.07972V25.612H26.121V4.07972H1ZM1 12.1543H26.121H1ZM5.48589 1.38818V6.77125V1.38818ZM10.869 1.38818V6.77125V1.38818ZM16.252 1.38818V6.77125V1.38818Z'
+		stroke={stroke}
+		stroke-width='2'
+		stroke-linecap='round'
+		stroke-linejoin='round'
+	>
+	</path>
+</svg>

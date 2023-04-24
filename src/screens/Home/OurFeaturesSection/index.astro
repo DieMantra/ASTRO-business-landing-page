@@ -1,7 +1,7 @@
 ---
 import FadeIntoView from '../../../components/UI/FadeIntoView.astro';
+import FlipCard from '../../../components/UI/FlipCard.astro';
 import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
-import FeatureCard from './FeatureCard.astro';
 
 interface Features {
 	title: string;
@@ -82,14 +82,27 @@ const FEATURES: Features[] = [
 			<div class='card_wrapper'>
 				{
 					FEATURES.map((feature) => (
-						<FeatureCard
-							title={feature.title}
-							content={feature.content}
-							backSideTitle={feature.backSideTitle}
-							backSideContent={feature.backSideContent}
+						<FlipCard
 							buttonText={feature.buttonText}
 							colorScheme={feature.colorScheme}
-						/>
+						>
+							<div
+								class='flipCardContent'
+								slot='front'
+								style={{ height: '100%' }}
+							>
+								<h3>{feature.title}</h3>
+								<p>{feature.content}</p>
+							</div>
+							<div
+								class='flipCardContent'
+								slot='back'
+								style={{ height: '100%' }}
+							>
+								<h3>{feature.backSideTitle}</h3>
+								<p>{feature.backSideContent}</p>
+							</div>
+						</FlipCard>
 					))
 				}
 			</div>
@@ -126,6 +139,20 @@ const FEATURES: Features[] = [
 			color: rgba(var(--grey));
 			margin-bottom: 6rem;
 			max-width: 65ch;
+		}
+	}
+
+	.flipCardContent {
+		& h3 {
+			font-size: 2.2rem;
+			margin-bottom: 2.4rem;
+			text-shadow: var(--text-shadow-1) rgba(0, 0, 0, 0.2);
+		}
+
+		& p {
+			margin-bottom: 2rem;
+			font-size: 1.4rem;
+			line-height: 150%;
 		}
 	}
 

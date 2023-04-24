@@ -1,23 +1,13 @@
 ---
-import ButtonSecondary from '../../../components/UI/ButtonSecondary.astro';
+import ButtonSecondary from './ButtonSecondary.astro';
 
 interface Props {
-	title: string;
-	content: string;
-	backSideTitle: string;
-	backSideContent: string;
 	buttonText: string;
 	colorScheme: 'blue' | 'white';
+	isFlip?: boolean;
 }
 
-const {
-	title,
-	content,
-	colorScheme,
-	buttonText,
-	backSideTitle,
-	backSideContent,
-} = Astro.props;
+const { colorScheme, buttonText, isFlip = true } = Astro.props;
 
 const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 ---
@@ -57,34 +47,34 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 	});
 </script>
 
-{
-	colorScheme === 'blue' ? (
-		<article
-			class='cardArticle'
-			class:list={colorScheme}
-			data-highlight
-			data-highlight-color='rgba(var(--blue), 0.2)'
-		>
-			<div class='front'>
-				<h3>{title}</h3>
+<article
+	class='cardArticle'
+	class:list={colorScheme}
+	data-highlight
+	data-highlight-color={colorScheme === 'blue'
+		? 'rgba(var(--blue), 0.2)'
+		: 'rgba(var(--orange), 0.1)'}
+>
+	<div class='front'>
+		<slot name='front' />
 
-				<p>{content}</p>
-
-				<div class='spacer' />
-
+		{
+			isFlip ? (
 				<ButtonSecondary
 					classSelector='openReadMoreBtn'
 					colorScheme={buttonColor}
 				>
 					{buttonText}
 				</ButtonSecondary>
-			</div>
+			) : (
+				''
+			)
+		}
+	</div>
+	{
+		isFlip ? (
 			<div class='back'>
-				<h3>{backSideTitle}</h3>
-
-				<p>{backSideContent}</p>
-
-				<div class='spacer' />
+				<slot name='back' />
 
 				<ButtonSecondary
 					classSelector='closeReadMoreBtn'
@@ -93,45 +83,11 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 					{buttonText}
 				</ButtonSecondary>
 			</div>
-		</article>
-	) : (
-		<article
-			class='cardArticle'
-			class:list={colorScheme}
-			data-highlight
-			data-highlight-color='rgba(var(--orange), 0.1)'
-		>
-			<div class='front'>
-				<h3>{title}</h3>
-
-				<p>{content}</p>
-
-				<div class='spacer' />
-
-				<ButtonSecondary
-					classSelector='openReadMoreBtn'
-					colorScheme={buttonColor}
-				>
-					{buttonText}
-				</ButtonSecondary>
-			</div>
-			<div class='back'>
-				<h3>{backSideTitle}</h3>
-
-				<p>{backSideContent}</p>
-
-				<div class='spacer' />
-
-				<ButtonSecondary
-					classSelector='closeReadMoreBtn'
-					colorScheme={buttonColor}
-				>
-					{buttonText}
-				</ButtonSecondary>
-			</div>
-		</article>
-	)
-}
+		) : (
+			''
+		)
+	}
+</article>
 
 <style lang='scss'>
 	@use 'src/sass/mixins' as m;
@@ -179,18 +135,6 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 		padding: 1rem;
 		padding-bottom: 2rem;
 		justify-content: stretch;
-
-		& h3 {
-			font-size: 2.2rem;
-			margin-bottom: 2.4rem;
-			text-shadow: var(--text-shadow-1) rgba(0, 0, 0, 0.2);
-		}
-
-		& p {
-			margin-bottom: 2rem;
-			font-size: 1.4rem;
-			line-height: 150%;
-		}
 	}
 	$scale-init: 0.5;
 	$scale-end: 1;
@@ -243,13 +187,6 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 				box-shadow: 0 2.5px 10px rgba(0, 0, 0, 0.1),
 					0 5px 16px rgba(0, 0, 0, 0.1), 0 8px 40px rgba(0, 0, 0, 0.1);
 			}
-		}
-
-		& h3 {
-			color: rgba(var(--h3Color));
-		}
-		& p {
-			color: rgba(var(--paragraphColor));
 		}
 	}
 </style>
