@@ -1,5 +1,6 @@
 ---
 import Calendar from '../../../components/SVGs/Calendar.astro';
+import FadeIntoView from '../../../components/UI/FadeIntoView.astro';
 import FlipCard from '../../../components/UI/FlipCard.astro';
 
 interface CARD {
@@ -65,29 +66,36 @@ const CARD_CONTENT: CARD[] = [
 	</div>
 	<div class='card-wrapper'>
 		{
-			CARD_CONTENT.map((card) => (
-				<div class={'card card--' + card.colorScheme}>
-					<div class={'wrapper ' + 'wrapper--' + card.colorScheme}>
-						<img alt='icon' src={card.iconUrl} class='icon' />
-						<div class='calendar-wrapper'>
-							<Calendar
-								height={'1.8rem'}
-								stroke={
-									card.colorScheme === 'white'
-										? 'rgb(var(--grey))'
-										: 'rgb(var(--grey-light))'
-								}
-							/>
-							<date>{card.date}</date>
-						</div>
-						<div class='content'>
-							<p>{card.content}</p>
-							<a class='link-btn' target='_blank' href={card.link.url}>
-								{card.link.text}
-							</a>
+			CARD_CONTENT.map((card, i) => (
+				<FadeIntoView
+					blur={20}
+					transitionSpeedMs={350 + 200 * i}
+					translateY='100px'
+					pixelsInViewDistance={-20}
+				>
+					<div class={'card card--' + card.colorScheme}>
+						<div class={'wrapper ' + 'wrapper--' + card.colorScheme}>
+							<img alt='icon' src={card.iconUrl} class='icon' />
+							<div class='calendar-wrapper'>
+								<Calendar
+									height={'1.8rem'}
+									stroke={
+										card.colorScheme === 'white'
+											? 'rgb(var(--grey))'
+											: 'rgb(var(--grey-light))'
+									}
+								/>
+								<date>{card.date}</date>
+							</div>
+							<div class='content'>
+								<p>{card.content}</p>
+								<a class='link-btn' target='_blank' href={card.link.url}>
+									{card.link.text}
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
+				</FadeIntoView>
 			))
 		}
 	</div>
