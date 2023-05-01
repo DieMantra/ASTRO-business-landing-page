@@ -37,7 +37,7 @@ const OPTIONS = [
 			left: '30%',
 		}}
 		rotation={-30}
-		blurAmount={50}
+		blurAmount={80}
 		size={'lg'}
 	/>
 	<div class='left'>
@@ -70,7 +70,7 @@ const OPTIONS = [
 			</ButtonPrimary>
 		</FadeIntoView>
 	</div>
-	<FadeIntoView blur={10} translateX={'100%'} pixelsInViewDistance={150}>
+	<FadeIntoView blur={10} translateX={'100%'} pixelsInViewDistance={100}>
 		<div class='right'>
 			<ol>
 				{
@@ -104,7 +104,7 @@ const OPTIONS = [
 		display: grid;
 		grid-template-columns: 1.2fr 1fr;
 		gap: 6rem;
-		margin-bottom: 20rem;
+		margin-bottom: 15rem;
 
 		@media screen and (width < 900px) {
 			grid-template-columns: 1fr;

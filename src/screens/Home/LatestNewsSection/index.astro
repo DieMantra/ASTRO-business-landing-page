@@ -1,7 +1,6 @@
 ---
 import Calendar from '../../../components/SVGs/Calendar.astro';
 import FadeIntoView from '../../../components/UI/FadeIntoView.astro';
-import FlipCard from '../../../components/UI/FlipCard.astro';
 
 interface CARD {
 	iconUrl: string;
@@ -123,6 +122,7 @@ const CARD_CONTENT: CARD[] = [
 	}
 
 	section {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -131,7 +131,7 @@ const CARD_CONTENT: CARD[] = [
 		max-width: var(--screen-medium);
 		padding-inline: 2rem;
 
-		margin-bottom: 10rem;
+		margin-bottom: 20rem;
 
 		& .heading-wrapper {
 			flex-direction: column;

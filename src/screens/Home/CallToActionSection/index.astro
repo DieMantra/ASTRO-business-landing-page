@@ -1,0 +1,243 @@
+---
+import ButtonPrimary from '../../../components/UI/ButtonPrimary.astro';
+import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+---
+
+<script>
+	const emailInput = document.getElementById('emailInput') as HTMLInputElement;
+	const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+	let currentInputValue: string;
+
+	let timer: number = 0;
+
+	emailInput.addEventListener('keyup', (e) => {
+		const input = e.target as HTMLInputElement;
+		if (input.value === '' || input.value === currentInputValue) {
+			reset(input.value);
+			return;
+		}
+
+		reset(input.value);
+
+		if (input.value.match(emailRegex)) {
+			emailInput.classList.add('valid');
+		} else {
+			timer = setTimeout(() => {
+				if (!input.value.match(emailRegex)) {
+					emailInput.classList.add('inValid');
+				}
+			}, 1000);
+		}
+	});
+
+	function reset(value: string) {
+		currentInputValue = value;
+
+		clearTimeout(timer);
+
+		emailInput.classList.remove('inValid');
+		emailInput.classList.remove('valid');
+	}
+</script>
+
+<section>
+	<FuzzyOrbs
+		blurAmount={45}
+		position={{
+			top: '-100px',
+			left: '0px',
+		}}
+	/>
+	<div class='max-width'>
+		<div class='heading'>
+			<h1>start now with the best Business idea</h1>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+				tellus pellentesque neque cursus lectus aliquam facilisi. Consectetur
+				dictum eget in aliquam tortor sit vel.
+			</p>
+		</div>
+		<div class='cto-wrapper'>
+			<div class='cto cto--email'>
+				<p class='cto--email__offers'>Offers & Promotion</p>
+				<p class='cto--email__info'>Get the latest information</p>
+				<input
+					id='emailInput'
+					type='email'
+					placeholder='email'
+					data-highlight
+					data-highlight-color='rgba(var(--blue), 0.5)'
+				/>
+				<ButtonPrimary
+					fontSize={'1.4rem'}
+					color={'--white'}
+					background={'--blue'}
+				>
+					Subscribe
+				</ButtonPrimary>
+			</div>
+			<span></span>
+			<div class='cto cto--phone'>
+				<p>Call Us</p>
+				<p>Have any Doubts? Need an Contact?</p>
+				<a
+					data-highlight
+					data-highlight-color='rgba(var(--blue), 0.2)'
+					href='tel:+88 0176 249 2373'
+				>
+					+88 0176 249 2373
+				</a>
+				<p>(toll free)</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style lang='scss'>
+	@use 'src/sass/mixins' as m;
+
+	section {
+		position: relative;
+		width: 100%;
+		background-color: rgba(255, 255, 255, 0.6);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		margin-top: 10rem;
+		margin-bottom: 10rem;
+	}
+	.max-width {
+		max-width: var(--screen-medium);
+	}
+
+	.heading {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		padding: 2rem;
+		h1 {
+			font-size: 4.5rem;
+			font-weight: 600;
+			color: var(--blue-dark);
+			margin-bottom: 1rem;
+		}
+		p {
+			font-size: 1.4rem;
+			font-weight: 400;
+			color: rgba(var(--grey));
+			max-width: 65ch;
+
+			margin-bottom: 5rem;
+		}
+	}
+
+	.cto-wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: stretch;
+		justify-content: space-evenly;
+
+		margin-bottom: 5rem;
+		@media screen and (width < 768px) {
+			flex-direction: column;
+			gap: 5rem;
+		}
+		& span {
+			width: 1px;
+			background-color: rgba(var(--grey), 0.2);
+
+			@media screen and (width < 768px) {
+				width: 80%;
+				margin: 0 auto;
+				height: 1px;
+			}
+		}
+	}
+
+	.cto {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-weight: 400;
+		color: rgba(var(--black));
+		font-size: 1.4rem;
+
+		&--email {
+			&__offers {
+				margin: 0;
+				font-size: 1.7rem;
+				margin-bottom: 0.4rem;
+			}
+			&__info {
+				margin: 0;
+				color: rgba(var(--grey));
+				margin-bottom: 2rem;
+			}
+
+			& input {
+				background-color: white;
+				padding: 1rem;
+				max-width: 30rem;
+				width: 100%;
+				border-radius: 50px;
+				padding-inline: 2rem;
+				margin-bottom: 2rem;
+				transition: all 200ms;
+				outline: 2px solid transparent;
+				outline-offset: 0px;
+
+				&:focus-within {
+					outline: 2px solid rgba(var(--blue-accent));
+					outline-offset: 2px;
+				}
+
+				&.valid {
+					outline: 2px solid rgba(var(--green));
+				}
+				&.inValid {
+					outline: 2px solid rgba(var(--red));
+				}
+			}
+		}
+
+		&--phone {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			& > * {
+				margin: 0;
+			}
+			& :nth-child(even) {
+				color: rgba(var(--grey));
+			}
+
+			& p:nth-child(1) {
+				font-size: 1.7rem;
+				margin-bottom: 1.6rem;
+			}
+			& p:nth-child(2) {
+				margin-bottom: 2rem;
+			}
+
+			& p:nth-child(4) {
+				font-size: 1.9rem;
+				letter-spacing: 2px;
+				color: rgba(var(--grey), 0.8);
+			}
+
+			& a {
+				font-size: 1.7rem;
+				letter-spacing: 2px;
+				margin-bottom: 1.7rem;
+				transition: 0.2s all;
+				@include m.hasHover {
+					letter-spacing: 3px;
+				}
+			}
+		}
+	}
+</style>
