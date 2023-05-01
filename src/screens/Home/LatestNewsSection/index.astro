@@ -57,69 +57,178 @@ const CARD_CONTENT: CARD[] = [
 ---
 
 <section>
-	{
-		CARD_CONTENT.map((card) => (
-			<FlipCard buttonText='' colorScheme={card.colorScheme} isFlip={card.flip}>
-				<div slot='front' class={('wrapper ', 'wrapper--' + card.colorScheme)}>
-					<img src={card.iconUrl} />
-					<div class='calendar-wrapper'>
-						<Calendar
-							height={'1.8rem'}
-							stroke={
-								card.colorScheme === 'white'
-									? 'rgb(var(--grey))'
-									: 'rgb(var(--grey-light))'
-							}
-						/>
-						<date>{card.date}</date>
+	<div class='heading-wrapper'>
+		<h1>Latest News</h1>
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+			veniam.
+		</p>
+	</div>
+	<div class='card-wrapper'>
+		{
+			CARD_CONTENT.map((card) => (
+				<FlipCard
+					height='340px'
+					buttonText=''
+					colorScheme={card.colorScheme}
+					isFlip={card.flip}
+				>
+					<div slot='front' class={'wrapper ' + 'wrapper--' + card.colorScheme}>
+						<img alt='icon' src={card.iconUrl} class='icon' />
+						<div class='calendar-wrapper'>
+							<Calendar
+								height={'1.8rem'}
+								stroke={
+									card.colorScheme === 'white'
+										? 'rgb(var(--grey))'
+										: 'rgb(var(--grey-light))'
+								}
+							/>
+							<date>{card.date}</date>
+						</div>
+						<div class='content'>
+							<p>{card.content}</p>
+							<a class='link-btn' target='_blank' href={card.link.url}>
+								{card.link.text}
+							</a>
+						</div>
 					</div>
-					<p>{card.content}</p>
-					<a target='_blank' href={card.link.url}>
-						{card.link.text}
-					</a>
-				</div>
-			</FlipCard>
-		))
-	}
+				</FlipCard>
+			))
+		}
+	</div>
 </section>
 
 <style lang='scss'>
+	@use '/src/sass/mixins' as m;
+
 	section {
+		--margin: 2rem;
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
 		gap: 1rem;
 		margin: 0 auto;
 		max-width: var(--screen-medium);
+
+		margin-bottom: 10rem;
+
+		& .heading-wrapper {
+			flex-direction: column;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			h1 {
+				font-size: 5rem;
+				font-weight: 700;
+				color: var(--blue-dark);
+				margin-bottom: 1rem;
+			}
+			p {
+				font-size: 1.5rem;
+				font-weight: 400;
+				color: rgba(var(--grey));
+				margin-bottom: 6rem;
+				max-width: 65ch;
+			}
+		}
+
+		& .card-wrapper {
+			display: flex;
+			justify-content: space-between;
+			gap: 1rem;
+			margin: 0 auto;
+			width: 100%;
+			max-width: var(--screen-medium);
+		}
 	}
 
 	.calendar-wrapper {
 		display: flex;
 		align-items: center;
+		margin-left: var(--margin);
 		date {
 			margin-left: 0.5rem;
 			font-size: 2rem;
 			font-weight: 200;
+
+			text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
 		}
 	}
+	.icon {
+		align-self: flex-start;
+		height: 8rem;
+		filter: drop-shadow(0 2.5px 10px rgba(0, 0, 0, 0.2));
+		margin: var(--margin);
+		margin-bottom: 3rem;
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+		margin-inline: var(--margin);
+		font-size: 1.4rem;
+		font-weight: 200;
+		line-height: 160%;
+	}
+	.link-btn {
+		align-self: flex-start;
+		border-radius: 50px;
+		margin-top: 1.4rem;
+		padding: 0.8rem 1.8rem;
+		transition: all 0.2s ease;
+		color: rgba(var(--grey));
+
+		outline: 3px solid transparent;
+
+		text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+		box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+	}
+
 	.wrapper {
 		display: flex;
 		flex-direction: column;
-		img {
-			align-self: flex-start;
-		}
 
 		&--blue {
-			.calendar-wrapper {
-				date {
-					color: rgb(var(--white));
+			color: rgb(var(--white));
+			.link-btn {
+				background-color: rgba(var(--white));
+
+				@include m.hasHover {
+					background-color: rgba(var(--white));
+					outline-color: rgba(var(--grey-light));
+					outline-offset: 3px;
+					box-shadow: 0px 3px 5px rgba(0, 0, 0, 0);
+				}
+				&:focus-within {
+					background-color: rgba(var(--white));
+					outline-color: rgba(var(--grey-light));
+					outline-offset: 3px;
+					box-shadow: 0px 3px 5px rgba(0, 0, 0, 0);
 				}
 			}
 		}
 
 		&--white {
-			.calendar-wrapper {
-				date {
-					color: rgb(var(--grey));
+			color: rgba(var(--grey));
+			.link-btn {
+				border: 1px solid rgba(var(--grey));
+
+				@include m.hasHover {
+					border-color: transparent;
+					background-color: rgba(var(--grey), 0.1);
+					outline-color: rgba(var(--grey), 0.1);
+					outline-offset: 3px;
+					box-shadow: 0px 3px 5px rgba(0, 0, 0, 0);
+				}
+				&:focus-within {
+					border-color: transparent;
+					background-color: rgba(var(--grey), 0.2);
+					outline-color: rgba(var(--grey), 0.2);
+					outline-offset: 3px;
+					box-shadow: 0px 3px 5px rgba(0, 0, 0, 0);
 				}
 			}
 		}

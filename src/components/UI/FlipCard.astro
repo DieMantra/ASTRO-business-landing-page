@@ -5,9 +5,15 @@ interface Props {
 	buttonText: string;
 	colorScheme: 'blue' | 'white';
 	isFlip?: boolean;
+	height?: `${number}px` | `${number}rem`;
 }
 
-const { colorScheme, buttonText, isFlip = true } = Astro.props;
+const {
+	colorScheme,
+	buttonText,
+	isFlip = true,
+	height = '270px',
+} = Astro.props;
 
 const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 ---
@@ -89,7 +95,7 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 	}
 </article>
 
-<style lang='scss'>
+<style lang='scss' define:vars={{ height }}>
 	@use 'src/sass/mixins' as m;
 	.spacer {
 		height: 100%;
@@ -100,7 +106,7 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 		perspective: 1000px;
 		position: relative;
 		width: 100%;
-		min-height: 270px;
+		min-height: var(--height);
 		transition: transform 1s ease-out, width 0.5s ease-in;
 
 		@include m.hasHover {
