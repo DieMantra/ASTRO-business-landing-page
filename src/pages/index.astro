@@ -1,6 +1,8 @@
 ---
 import Navigation from '../components/Navigation.astro';
 
+import SubscribedOverlay from '../screens/Home/CallToActionSection/EmailSubscribeOverlay.astro';
+
 import PageLayout from '../layouts/PageLayout.astro';
 import CallToActionSection from '../screens/Home/CallToActionSection/index.astro';
 import HeroSection from '../screens/Home/HeroSection/HeroSection.astro';
@@ -12,6 +14,10 @@ const PAGE_TITLE = 'LW.G | Statistic About Your Business';
 
 <!-- landing page -->
 <PageLayout title={PAGE_TITLE}>
+	<!-- OVERLAYS -->
+	<SubscribedOverlay />
+
+	<!-- SECTIONS -->
 	<Navigation />
 	<HeroSection />
 	<OurFeaturesSection />
