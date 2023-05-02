@@ -1,0 +1,211 @@
+---
+import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+interface Review {
+	username: string;
+	jobTitle: string;
+	reviewMessage: string;
+}
+
+const REVIEWS: Review[] = [
+	{
+		username: 'Lauren Peterson',
+		jobTitle: 'Frontend Developer',
+		reviewMessage:
+			'Working with this team has been a remarkable experience that has exceeded my expectations in every way. The level of attention to detail and willingness to collaborate make them an exceptional team to work with. I have learned a lot from their expertise and professionalism, and I have no doubt that they can deliver on any project. Their ability to think outside the box and propose creative solutions to problems has been invaluable. They have always been prompt with their communication and transparent in their process, which makes it easy to work with them. I highly recommend this team to anyone looking for a reliable, skilled, and easy-to-work-with team.',
+	},
+	{
+		username: 'Alex Rodriguez',
+		jobTitle: 'Product Manager',
+		reviewMessage:
+			'I have had the pleasure of working with this company on multiple projects, and they have consistently delivered high-quality work that has exceeded our expectations. Their communication and project management skills are top-notch, and they have always kept us informed throughout the entire project. The team has a vast knowledge of the latest trends and technologies, and they have always been willing to go the extra mile to ensure our satisfaction. They work collaboratively, making sure that our needs are met and that the final product is nothing short of exceptional. I highly recommend this company to anyone looking for a reliable and highly skilled team that delivers exceptional results.',
+	},
+	{
+		username: 'Sarah Thompson',
+		jobTitle: 'Marketing Specialist',
+		reviewMessage:
+			'I am impressed with the team at this company as they really know their stuff. They are always up-to-date on the latest trends and technologies, and they consistently go above and beyond to deliver results. Their expertise and professionalism are unmatched, and their ability to think strategically has been invaluable to our marketing efforts. They have a deep understanding of our target audience, which has helped us create successful campaigns that have yielded significant results. I appreciate their prompt communication, transparency, and dedication to our project. Overall, I would definitely work with this team again and highly recommend them to anyone looking for a team that delivers quality work and exceptional results.',
+	},
+];
+---
+
+<script>
+	const reviewButtons = document.querySelectorAll('.reviewPaginationButton');
+	const articles = document.querySelectorAll(
+		'.reviewArticle'
+	) as unknown as HTMLElement[];
+	let prevElementIndex: number;
+
+	reviewButtons.forEach((btn, index) => {
+		btn.addEventListener('click', () => {
+			setBtnStyles(index);
+			setActiveArticle(index);
+		});
+	});
+
+	function setBtnStyles(index: number) {
+		for (let i = 0; i < reviewButtons.length; i++) {
+			if (i === index) reviewButtons[i].classList.add('active');
+			else reviewButtons[i].classList.remove('active');
+		}
+	}
+
+	function setActiveArticle(index: number) {
+		for (let i = 0; i < articles.length; i++) {
+			if (i === index) {
+				articles[i].classList.add('active');
+				articles[i].style.transform = `translateX(${0})`;
+			} else {
+				articles[i].style.transform = `translateX(${
+					index > i ? '-150%' : '150%'
+				})`;
+				articles[i].classList.remove('active');
+			}
+		}
+		prevElementIndex = index;
+	}
+
+	function init() {
+		reviewButtons[0].classList.add('active');
+		articles[0].classList.add('active');
+		articles[0].style.transform = `translateX(${0})`;
+		prevElementIndex = 0;
+		for (let i = 0; i < articles.length; i++) {
+			if (i !== 0) {
+				reviewButtons[i].classList.remove('active');
+				articles[i].classList.remove('active');
+				articles[i].style.transform = `translateX(${150 * i}%)`;
+			}
+		}
+	}
+	init();
+</script>
+
+<section>
+	<FuzzyOrbs
+		size={'lg'}
+		blurAmount={75}
+		rotation={-30}
+		position={{
+			top: '0px',
+			right: '25%',
+		}}
+	/>
+	<h1>Our valuable client’s say</h1>
+	<div class='articleWrapper'>
+		{
+			REVIEWS.map((review, i) => (
+				<article class={'reviewArticle' + (i === 0 ? ' active' : '')}>
+					<h4>{review.username}</h4>
+					<span>{review.jobTitle}</span>
+					<p>{review.reviewMessage}</p>
+				</article>
+			))
+		}
+	</div>
+	<div class='reviewPaginationButtons'>
+		{
+			REVIEWS.map((REVIEWS, i) => (
+				<button class={'reviewPaginationButton' + (i === 0 ? ' active' : '')} />
+			))
+		}
+	</div>
+</section>
+
+<style lang='scss'>
+	@use 'src/sass/mixins' as m;
+
+	.reviewPaginationButtons {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		column-gap: 1rem;
+	}
+
+	.reviewPaginationButton {
+		--size: 1rem;
+		width: var(--size);
+		height: var(--size);
+		padding: 5px;
+		background-color: transparent;
+		border: 1px solid rgba(var(--grey));
+		border-radius: 50%;
+
+		transition: all 0.35s ease;
+
+		@include m.hasHover {
+			background-color: rgba(var(--grey));
+		}
+		&.active {
+			background-color: rgba(var(--blue));
+		}
+	}
+
+	.articleWrapper {
+		max-width: auto;
+		overflow-x: hidden;
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: auto;
+	}
+
+	.reviewArticle {
+		transition: all 0.25s ease;
+		grid-row: 1 / 2;
+		grid-column: 1 / 2;
+		scale: 0.5;
+		opacity: 0;
+		&.active {
+			scale: 1;
+			opacity: 1;
+			transition: all 0.5s ease;
+			display: block;
+			transform: translateX(0);
+		}
+	}
+
+	section {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: rgba(var(--black));
+		margin-block: 20rem;
+		text-align: center;
+		@media screen and (width < 768px) {
+			padding-inline: 2rem;
+		}
+	}
+
+	h1 {
+		font-size: 5rem;
+		margin-bottom: 10rem;
+	}
+
+	article {
+		margin-bottom: 4rem;
+		text-align: center;
+		max-width: 110ch;
+
+		& h4 {
+			color: rgba(var(--blue-dark));
+			font-size: 2rem;
+			margin-bottom: 0.5rem;
+		}
+
+		& span {
+			display: block;
+			color: rgba(var(--grey));
+			margin-bottom: 2rem;
+		}
+
+		& p {
+			// max-height: 25rem;
+			// overflow-y: scroll;
+
+			line-height: 160%;
+			font-size: 1.4rem;
+			color: rgba(var(--grey));
+		}
+	}
+</style>
