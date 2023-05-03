@@ -73,6 +73,8 @@ const speedVar = `${transitionSpeedMs}ms`,
 		transition: all var(--speedVar) var(--transitionVar);
 		opacity: 0;
 		transform: translate(var(--translateX), var(--translateY));
+		will-change: transform, opacity;
+
 		&.show {
 			opacity: 1;
 			transform: translate(0);
