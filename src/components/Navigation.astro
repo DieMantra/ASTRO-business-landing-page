@@ -24,34 +24,38 @@ const links = [
 	showMenuBtn?.addEventListener('click', () => {
 		navMenu.classList.toggle('show');
 		document.querySelector('body')!.classList.toggle('noScroll');
+		showNav({ isTop: scrollIsAtTop() });
 	});
 
 	let prevScrollPosition = 0;
+
 	window.addEventListener('scroll', () => {
 		if (!nav) return;
 
-		const scroll = window.scrollY;
-
-		const scrolledBack =
-			scroll < prevScrollPosition - navHeight && scroll < prevScrollPosition;
-		const scrolledForward = scroll > navHeight && scroll > prevScrollPosition;
-
-		if (scroll < navHeight) {
-			showNav({ isTop: true });
-			prevScrollPosition = scroll;
+		if (scrollIsAtTop() || scrolledBack()) {
+			showNav({ isTop: scrollIsAtTop() });
+			prevScrollPosition = window.scrollY;
 			return;
 		}
-		if (scrolledBack) {
-			showNav({ isTop: false });
-			prevScrollPosition = scroll;
-			return;
-		}
-		if (scrolledForward) {
+		if (scrolledForward()) {
 			hideNav();
-			prevScrollPosition = scroll;
+			prevScrollPosition = window.scrollY;
 			return;
 		}
 	});
+
+	function scrolledForward(): boolean {
+		return window.scrollY > navHeight && window.scrollY > prevScrollPosition;
+	}
+	function scrolledBack(): boolean {
+		return (
+			window.scrollY < prevScrollPosition - navHeight &&
+			window.scrollY < prevScrollPosition
+		);
+	}
+	function scrollIsAtTop(): boolean {
+		return window.scrollY < navHeight;
+	}
 
 	function showNav({ isTop }: { isTop: boolean }) {
 		nav.classList.remove('isHidden');
@@ -170,7 +174,7 @@ const links = [
 		margin: 0 auto;
 
 		@media screen and (width < 768px) {
-			height: 35px;
+			height: 45px;
 			display: flex;
 			justify-content: flex-start;
 		}
@@ -200,8 +204,8 @@ const links = [
 		@media screen and (width < 768px) {
 			display: initial;
 			position: fixed;
-			top: calc(3.5rem / 4);
-			right: calc(3.5rem / 4);
+			top: calc(4.5rem / 4);
+			right: calc(4.5rem / 4);
 			z-index: 9999;
 		}
 	}
