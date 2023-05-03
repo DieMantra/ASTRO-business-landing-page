@@ -2,16 +2,14 @@
 interface Props {
 	fill?: string;
 	stroke?: string;
-	width?: string;
-	height?: string;
 }
 
-const { fill = 'none', stroke = '#767676', height, width }: Props = Astro.props;
+const { fill = 'none', stroke = '#767676' }: Props = Astro.props;
 ---
 
 <svg
-	width={width || '28'}
-	height={height || '27'}
+	width='18px'
+	height='18px'
 	viewBox='0 0 28 27'
 	fill={fill}
 	xmlns='http://www.w3.org/2000/svg'
