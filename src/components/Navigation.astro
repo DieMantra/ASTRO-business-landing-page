@@ -13,55 +13,62 @@ const links = [
 ---
 
 <script>
-	const nav = document.getElementById('nav');
+	const nav = document.getElementById('nav') as HTMLElement;
 	const showMenuBtn = document.getElementById('hamburger-btn');
-	const navMenu = document.getElementById('nav--menu');
+	const navMenu = document.getElementById('nav--menu') as HTMLMenuElement;
 	const navLinks = document.getElementsByClassName('navigation-links');
 	const windowLocation = window.location.pathname;
+
+	const navHeight = nav.clientHeight || 0;
+
 	showMenuBtn?.addEventListener('click', () => {
-		if (!navMenu) return;
-		const navHeight = nav?.clientHeight || 0;
-
 		navMenu.classList.toggle('show');
-		navMenu.style.top = `${navHeight}px`;
-
-		document.querySelector('body')!.style.overflow = navMenu.classList.contains(
-			'show'
-		)
-			? 'hidden'
-			: 'auto';
+		document.querySelector('body')!.classList.toggle('noScroll');
 	});
 
 	let prevScrollPosition = 0;
 	window.addEventListener('scroll', () => {
 		if (!nav) return;
-		const navHeight = nav?.clientHeight || 0;
+
 		const scroll = window.scrollY;
+
 		const scrolledBack =
 			scroll < prevScrollPosition - navHeight && scroll < prevScrollPosition;
 		const scrolledForward = scroll > navHeight && scroll > prevScrollPosition;
+
 		if (scroll < navHeight) {
-			nav.style.transform = 'translateY(0) translateX(-50%)';
-			nav.style.backdropFilter = `blur(5px)`;
-			nav.style.backgroundColor = `rgba(var(--white), 0.${scroll})`;
-			nav.style.borderBottom = `rgba(var(--grey), 0) solid 1px`;
+			showNav({ isTop: true });
 			prevScrollPosition = scroll;
 			return;
 		}
 		if (scrolledBack) {
-			nav.style.transform = 'translateY(0) translateX(-50%)';
-			nav.style.backdropFilter = `blur(5px)`;
-			nav.style.backgroundColor = 'rgba(var(--white), 0.9)';
-			nav.style.borderBottom = `rgba(var(--grey), 0.1) solid 1px`;
+			showNav({ isTop: false });
 			prevScrollPosition = scroll;
 			return;
 		}
 		if (scrolledForward) {
-			nav.style.transform = `translateY(-${navHeight}px) translateX(-50%)`;
+			hideNav();
 			prevScrollPosition = scroll;
 			return;
 		}
 	});
+
+	function showNav({ isTop }: { isTop: boolean }) {
+		nav.classList.remove('isHidden');
+		if (isTop) {
+			nav.classList.add('isTop');
+			nav.classList.remove('isScrolledUpOpen');
+		} else {
+			nav.classList.remove('isTop');
+			nav.classList.add('isScrolledUpOpen');
+		}
+	}
+
+	function hideNav() {
+		nav.classList.add('isHidden');
+		nav.classList.remove('isTop');
+		nav.classList.remove('isScrolledUpOpen');
+	}
 
 	for (let i = 0; i < navLinks.length; i++) {
 		const link = navLinks.item(i);
@@ -114,17 +121,17 @@ const links = [
 				Sign Up
 			</Button>
 		</div>
-
-		<div class='open-menu-btn'>
-			<HamburgerMenu id='hamburger-btn' classes='open-menu-btn' />
-		</div>
 	</div>
 </nav>
+<div class='open-menu-btn'>
+	<HamburgerMenu classes='open-menu-btn' />
+</div>
 
 <style lang='scss'>
 	@use '../sass/mixins.scss' as m;
 	.nav {
 		--padding-block: 0.9rem;
+		--transitionSpeed: 0.35s;
 		width: 100%;
 		padding: 1.2rem 2rem;
 		font-weight: 400;
@@ -133,7 +140,27 @@ const links = [
 		position: fixed;
 		left: 50%;
 		transform: translateX(-50%);
-		transition: all 0.5s ease;
+		transition: transform var(--transitionSpeed) ease,
+			background-color var(--transitionSpeed) ease,
+			opacity var(--transitionSpeed) ease, border var(--transitionSpeed);
+		border-bottom: transparent solid 1px;
+		backdrop-filter: blur(5px);
+
+		&.isTop {
+			transform: translateY(0) translateX(-50%);
+			background-color: rgba(var(--white), 0.1);
+		}
+
+		&.isHidden {
+			transform: translateY(-100%) translateX(-50%);
+			opacity: 0;
+		}
+
+		&.isScrolledUpOpen {
+			transform: translateY(0) translateX(-50%);
+			background-color: rgba(var(--white), 0.9);
+			border-bottom: rgba(var(--grey), 0.1) solid 1px;
+		}
 	}
 	.controls-wrapper {
 		max-width: var(--screen-large);
@@ -141,6 +168,12 @@ const links = [
 		align-items: center;
 		justify-content: space-between;
 		margin: 0 auto;
+
+		@media screen and (width < 768px) {
+			height: 35px;
+			display: flex;
+			justify-content: flex-start;
+		}
 	}
 	.logo {
 		width: auto;
@@ -166,6 +199,10 @@ const links = [
 		display: none;
 		@media screen and (width < 768px) {
 			display: initial;
+			position: fixed;
+			top: calc(3.5rem / 4);
+			right: calc(3.5rem / 4);
+			z-index: 9999;
 		}
 	}
 
@@ -226,16 +263,11 @@ const links = [
 			}
 		}
 
-		.open-menu-btn {
-			display: none;
-			display: initial;
-		}
-
 		menu {
 			display: none;
 			z-index: 100;
 			position: absolute;
-			top: 0;
+			top: 100%;
 			left: 0;
 			width: 100%;
 			height: 100vh;

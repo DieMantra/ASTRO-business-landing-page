@@ -1,29 +1,21 @@
 ---
 interface Props {
-	id: string;
 	classes?: string;
 }
-const { id, classes } = Astro.props;
+const { classes } = Astro.props;
 
 const TIME_IN = '0.75s';
 const TIME_OUT = '1.5s';
 ---
 
-<button
-	id={id}
-	class={`hamburger-btn ${classes}`}
-	data-highlight='true'
-	data-highlight-color='--blue-light'
->
-	<span></span>
-	<span></span>
-	<span></span>
-</button>
-<script define:vars={{ id }}>
-	const hamburgerBtn = document.getElementById(id);
+<script>
+	const hamburgerBtn = document.getElementById(
+		'hamburger-btn'
+	) as HTMLButtonElement;
+
 	hamburgerBtn.addEventListener('click', () => {
-		const isActive = hamburgerBtn.classList.contains('is-active');
-		if (isActive) {
+		if (hamburgerBtn.classList.contains('is-active')) {
+			console.log('yeset');
 			hamburgerBtn.classList.remove('is-active');
 			hamburgerBtn.classList.add('is-not-active');
 		} else {
@@ -32,12 +24,25 @@ const TIME_OUT = '1.5s';
 		}
 	});
 </script>
+
+<button
+	id='hamburger-btn'
+	class={`hamburger-btn ${classes}`}
+	data-highlight='true'
+	data-highlight-color='--blue-light'
+>
+	<span></span>
+	<span></span>
+	<span></span>
+</button>
+
 <style lang='scss' define:vars={{ TIME_IN, TIME_OUT }}>
 	@use '../../sass/mixins' as m;
-	button {
+	.hamburger-btn {
 		--height: 40px;
 		--width: 40px;
-		background-color: transparent;
+		background-color: rgba(var(--grey-light), 0.6);
+		backdrop-filter: blur(5px);
 		border: 0;
 		cursor: pointer;
 		border-radius: 50%;
@@ -51,6 +56,8 @@ const TIME_OUT = '1.5s';
 		gap: 5px;
 		outline: 2px solid transparent;
 
+		box-shadow: var(--shadow-btn);
+
 		@include m.hasHover {
 			background-color: rgba(var(--grey-light), 1);
 		}
@@ -59,7 +66,6 @@ const TIME_OUT = '1.5s';
 			width: 50%;
 			height: 1px;
 			background-color: rgba(var(--grey));
-			// position: absolute;
 			transform-origin: center;
 			transition: all var(--TIME_IN) ease;
 		}
@@ -67,7 +73,6 @@ const TIME_OUT = '1.5s';
 		&:focus-within {
 			outline: 2px solid;
 			outline-color: rgba(var(--grey), 0.1);
-			background-color: transparent;
 		}
 
 		&.is-active {
@@ -79,6 +84,7 @@ const TIME_OUT = '1.5s';
 			& span {
 				--positive: calc(var(--height) / 7);
 				--negative: calc(var(--height) / 7 * -1);
+
 				&:nth-child(1) {
 					transform: translateY(var(--positive)) rotate(45deg);
 				}

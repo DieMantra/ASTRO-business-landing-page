@@ -18,6 +18,12 @@ body {
 		rgb(248, 248, 248) 13.53%,
 		rgba(225, 227, 229, 0.8) 95.54%
 	);
+
+	overflow: auto;
+
+	&.noScroll {
+		overflow: hidden;
+	}
 }
 
 // * {

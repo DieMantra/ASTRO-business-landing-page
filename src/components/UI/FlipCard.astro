@@ -29,15 +29,6 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 			if (!front || !back) return;
 
 			if (target.classList.contains('openReadMoreBtn')) {
-				// close an open cards
-				// articleCard.forEach((card) => {
-				// 	if (card.classList.contains('open')) {
-				// 		card.classList.remove('open');
-				// 		card.querySelector('.front')?.classList.remove('hide');
-				// 		card.querySelector('.back')?.classList.remove('show');
-				// 	}
-				// });
-
 				card.classList.add('open');
 				front.classList.add('hide');
 				back.classList.add('show');
