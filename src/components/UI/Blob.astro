@@ -45,8 +45,9 @@
 				blob.style.backgroundColor = blobBackgroundColor;
 			}
 		}
-		window.addEventListener('mousemove', (e: MouseEvent) => {
+		body?.addEventListener('mousemove', (e: MouseEvent) => {
 			if (isMouseOver) return;
+
 			const { x, y } = findMousePosition(e);
 			if (blob) {
 				blob.style.transform = `translate(${x}px, ${y}px)`;
@@ -65,13 +66,13 @@
 			}
 		});
 		window.addEventListener('resize', calculateBlobCenter);
-		window.addEventListener('mouseup', (e: MouseEvent) => {
+		body?.addEventListener('mouseup', (e: MouseEvent) => {
 			const { x, y } = findMousePosition(e);
 			if (blob) {
 				resetBlob(x, y);
 			}
 		});
-		window.addEventListener('mousedown', (e: MouseEvent) => {
+		body?.addEventListener('mousedown', (e: MouseEvent) => {
 			const { x, y } = findMousePosition(e);
 			if (blob) {
 				blob.style.transform = `translate(${x}px, ${y}px) scale(5)`;
@@ -124,6 +125,7 @@
 		height: 8rem;
 		border: 15px solid rgba(var(--orange), 0.5);
 		filter: blur(15px);
+		-webkit-filter: blur(15px);
 		opacity: 0;
 		border-radius: 50%;
 		position: absolute;
@@ -132,13 +134,18 @@
 		z-index: -1;
 		user-select: none;
 		pointer-events: none;
-	}
 
-	body {
-		margin: 0 auto;
-		&.overflow-protector {
-			overflow-x: hidden;
-			position: relative;
+		@media screen and (width > 768px) {
+			will-change: transform, border-width, border-radius, width, height,
+				opacity, border-color, background-color;
 		}
 	}
+
+	// body {
+	// 	margin: 0 auto;
+	// 	&.overflow-protector {
+	// 		overflow-x: hidden;
+	// 		position: relative;
+	// 	}
+	// }
 </style>
