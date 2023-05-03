@@ -6,7 +6,6 @@ interface Props {
 	translateY?: `${'-' | ''}${number}px` | `${'-' | ''}${number}%`;
 	mobileTranslateX?: `${'-' | ''}${number}px` | `${'-' | ''}${number}%`;
 	mobileTranslateY?: `${'-' | ''}${number}px` | `${'-' | ''}${number}%`;
-	blur?: number;
 	transition?: keyof typeof transitions;
 }
 
@@ -18,7 +17,6 @@ const {
 	mobileTranslateX = translateX,
 	mobileTranslateY = translateY,
 	transition = 'snappyCurve',
-	blur,
 } = Astro.props;
 
 const transitions = {
@@ -30,7 +28,6 @@ const transitions = {
 };
 
 const speedVar = `${transitionSpeedMs}ms`,
-	varBlur = blur + 'px',
 	transitionVar = transitions[transition];
 ---
 
@@ -67,26 +64,22 @@ const speedVar = `${transitionSpeedMs}ms`,
 		speedVar,
 		translateX,
 		translateY,
-		varBlur,
 		transitionVar,
 		mobileTranslateX,
 		mobileTranslateY,
 	}}
 >
 	.fadeInSlot {
-		filter: blur(var(--varBlur));
 		transition: all var(--speedVar) var(--transitionVar);
 		opacity: 0;
 		transform: translate(var(--translateX), var(--translateY));
 		&.show {
 			opacity: 1;
 			transform: translate(0);
-			filter: blur(0px);
 		}
 	}
 	@media screen and (width < 768px) {
 		.fadeInSlot {
-			filter: blur(var(--varBlur));
 			transition: all var(--speedVar) var(--transitionVar);
 			opacity: 0;
 			transform: translate(var(--mobileTranslateX), var(--mobileTranslateY));
