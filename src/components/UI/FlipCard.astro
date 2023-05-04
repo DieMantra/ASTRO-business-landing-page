@@ -132,6 +132,9 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 		padding: 1rem;
 		padding-bottom: 2rem;
 		justify-content: stretch;
+
+		box-shadow: 0 2.5px 5px rgba(0, 0, 0, 0.1), 0 5px 8px rgba(0, 0, 0, 0.1),
+			0 8px 20px rgba(0, 0, 0, 0.1), 0 8px 40px rgba(0, 0, 0, 0.3);
 	}
 	$scale-init: 0.5;
 	$scale-end: 1;
@@ -152,8 +155,6 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 	}
 
 	article.blue {
-		box-shadow: 0 2.5px 5px rgba(0, 0, 0, 0.1), 0 5px 8px rgba(0, 0, 0, 0.1),
-			0 8px 20px rgba(0, 0, 0, 0.1), 0 8px 40px rgba(0, 0, 0, 0.3);
 		.front {
 			background-color: rgba(var(--blue));
 		}
@@ -173,7 +174,6 @@ const buttonColor = colorScheme === 'blue' ? 'white' : 'blue';
 	}
 
 	article.white {
-		box-shadow: 0 2.5px 5px rgba(0, 0, 0, 0.1), 0 5px 8px rgba(0, 0, 0, 0.1);
 		.front,
 		.back {
 			background-color: rgba(var(--white));
