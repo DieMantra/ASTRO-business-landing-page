@@ -8,7 +8,7 @@ import Sponsors from './Sponsors.astro';
 const IMG_URL = '/images/backgrounds/computer-graphic.png';
 ---
 
-<main>
+<main class='main'>
 	<FuzzyOrbs
 		size={'lg'}
 		blurAmount={75}
@@ -58,6 +58,10 @@ const IMG_URL = '/images/backgrounds/computer-graphic.png';
 </main>
 <style lang='scss'>
 	@use '../../../sass/mixins' as m;
+
+	.main {
+		position: relative;
+	}
 
 	.hero {
 		max-width: var(--screen-large);

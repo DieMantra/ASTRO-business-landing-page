@@ -28,7 +28,7 @@ const {
 	rotation = 17,
 	size = 'md',
 	blurAmount = 45,
-	position = { top: 0, left: 0, right: 0, bottom: 0 },
+	position = { top: 1, left: 1, right: 1, bottom: 1 },
 } = Astro.props;
 const orbSizes = {
 	width: {
@@ -88,7 +88,7 @@ const right =
 		padding: 0;
 		margin: 0;
 		display: inline-block;
-		position: fixed;
+		position: absolute;
 		top: var(--top);
 		left: var(--left);
 		right: var(--right);
