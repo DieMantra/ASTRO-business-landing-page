@@ -77,7 +77,7 @@
 			if (blob) {
 				blob.style.transform = `translate(${x}px, ${y}px) scale(5)`;
 				blob.style.opacity = '0';
-				blob.style.borderWidth = '20px';
+				// blob.style.borderWidth = '20px';
 			}
 		});
 		body?.addEventListener('mouseover', (e: MouseEvent) => {
@@ -86,6 +86,7 @@
 			if (!target && !parent) return;
 			const targetHasHighlight = target.hasAttribute('data-highlight');
 			const parentHasHighlight = parent?.hasAttribute('data-highlight');
+
 			if ((targetHasHighlight || parentHasHighlight) && blob) {
 				isMouseOver = true;
 
@@ -98,6 +99,7 @@
 					: parent.getBoundingClientRect();
 				const newLeft = left + 20 + window.scrollX;
 				const newTop = top + window.scrollY;
+
 				blob.style.width = `${width}px`;
 				blob.style.height = `${height}px`;
 				blob.style.transform = `translate(${newLeft}px, ${newTop}px)`;
@@ -118,9 +120,9 @@
 
 <style lang='scss'>
 	#blob {
-		transition: all 0.25s cubic-bezier(0.81, 0.8, 0.47, 0.77), opacity 1s,
-			border 5s linear, width 0.5s, height 0.5s,
-			scale 0.5s cubic-bezier(0, 0.64, 1, 0.92), border-color 0.5s ease-out;
+		// transition: all 0.25s cubic-bezier(0.81, 0.8, 0.47, 0.77), opacity 1s,
+		// 	border 5s linear, width 0.5s, height 0.5s,
+		// 	scale 0.5s cubic-bezier(0, 0.64, 1, 0.92), border-color 0.5s ease-out;
 		width: 8rem;
 		height: 8rem;
 		border: 15px solid rgba(var(--orange), 0.5);

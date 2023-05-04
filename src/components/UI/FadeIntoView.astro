@@ -42,6 +42,7 @@ const speedVar = `${transitionSpeedMs}ms`,
 			checkDivPosition(fadeInSlot, offset)
 		);
 	});
+
 	function checkDivPosition(fadeInSlot: Element, offset: number) {
 		if (!fadeInSlot) return;
 		const { bottom, height } = fadeInSlot.getBoundingClientRect();
@@ -73,7 +74,7 @@ const speedVar = `${transitionSpeedMs}ms`,
 		transition: all var(--speedVar) var(--transitionVar);
 		opacity: 0;
 		transform: translate(var(--translateX), var(--translateY));
-		will-change: transform, opacity;
+		/* will-change: transform, opacity; */
 
 		&.show {
 			opacity: 1;
