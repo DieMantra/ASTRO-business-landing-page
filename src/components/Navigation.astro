@@ -18,7 +18,6 @@ const links = [
 	const navMenu = document.getElementById('nav--menu') as HTMLMenuElement;
 	const navLinks = document.getElementsByClassName('navigation-links');
 	const windowLocation = window.location.pathname;
-
 	const navHeight = nav.clientHeight || 0;
 
 	showMenuBtn?.addEventListener('click', () => {
@@ -27,25 +26,74 @@ const links = [
 		showNav({ isTop: scrollIsAtTop() });
 	});
 
-	let prevScrollPosition = 0;
+	let prevScrollPosition: number = 0;
+	let interval: number;
+	let timeSpentScrolling: number = 0;
+	let isScrollTimerActive: boolean = false;
+	let windowCurrentPosition: number = 0;
+	let isNavVisible: boolean = true;
+	document.addEventListener('scroll', () => {
+		if (!isScrollTimerActive) {
+			isScrollTimerActive = true;
 
-	window.addEventListener('scroll', () => {
-		if (!nav) return;
+			interval = setInterval(() => {
+				timeSpentScrolling += 0.35;
 
-		if (scrollIsAtTop() || scrolledBack()) {
-			showNav({ isTop: scrollIsAtTop() });
-			prevScrollPosition = window.scrollY;
-			return;
-		}
-		if (scrolledForward()) {
-			hideNav();
-			prevScrollPosition = window.scrollY;
-			return;
+				if (timeSpentScrolling >= 0.35 || !isScrollTimerActive) {
+					// CONTINUE timer and check the position
+					console.log('checking position');
+					checkScrollPosition();
+				}
+
+				if (
+					timeSpentScrolling > 0.4 &&
+					windowCurrentPosition === window.scrollY
+				) {
+					// END the timer and check position
+					checkScrollPosition();
+					stopTimer();
+				}
+
+				windowCurrentPosition = window.scrollY;
+				console.log(timeSpentScrolling);
+			}, 350);
 		}
 	});
 
+	function checkScrollPosition() {
+		const scrolledBackOrTop = scrollIsAtTop() || scrolledBack();
+		const scrolledForwards = scrolledForward();
+
+		if (scrolledBackOrTop) {
+			if (!isNavVisible) {
+				showNav({ isTop: scrollIsAtTop() });
+				isNavVisible = true;
+			}
+			prevScrollPosition = window.scrollY;
+			return;
+		}
+		if (scrolledForwards) {
+			if (isNavVisible) {
+				hideNav();
+				isNavVisible = false;
+			}
+			prevScrollPosition = window.scrollY;
+
+			return;
+		}
+	}
+
+	function stopTimer() {
+		isScrollTimerActive = false;
+		timeSpentScrolling = 0;
+		clearInterval(interval);
+	}
+
 	function scrolledForward(): boolean {
-		return window.scrollY > navHeight && window.scrollY > prevScrollPosition;
+		return (
+			window.scrollY > navHeight &&
+			window.scrollY > prevScrollPosition + navHeight
+		);
 	}
 	function scrolledBack(): boolean {
 		return (

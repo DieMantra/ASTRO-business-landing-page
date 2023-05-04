@@ -34,24 +34,19 @@ const speedVar = `${transitionSpeedMs}ms`,
 <script>
 	const fadeInSlots = document.querySelectorAll('.fadeInSlot');
 
-	fadeInSlots.forEach((fadeInSlot) => {
-		const offset = +(fadeInSlot?.getAttribute('data-pixels-inview') || 0);
+	const observer = new IntersectionObserver(
+		(entries) => {
+			for (let i = 0; i < entries.length; i++) {
+				if (entries[i].isIntersecting) {
+					entries[i].target.classList.add('show');
+				}
+			}
+		},
+		{ threshold: 0.4 }
+	);
 
-		checkDivPosition(fadeInSlot, offset);
-		window.addEventListener('scroll', () =>
-			checkDivPosition(fadeInSlot, offset)
-		);
-	});
-
-	function checkDivPosition(fadeInSlot: Element, offset: number) {
-		if (!fadeInSlot) return;
-		const { bottom, height } = fadeInSlot.getBoundingClientRect();
-		const bottomStartEnd = bottom - (height - offset);
-		if (bottomStartEnd <= window.innerHeight) {
-			fadeInSlot.classList.add('show');
-		} else {
-			fadeInSlot.classList.remove('show');
-		}
+	for (let i = 0; i < fadeInSlots.length; i++) {
+		observer.observe(fadeInSlots[i]);
 	}
 </script>
 
