@@ -277,6 +277,8 @@ const links = [
 			height: 100vh;
 			transition: all 0.5s ease;
 			border-top: 1px solid rgba(var(--grey), 0.2);
+			background-color: rgba(var(--white), 0.99);
+			transform: translateX(-100%);
 
 			& .ul {
 				flex-direction: column;
@@ -293,11 +295,10 @@ const links = [
 				@keyframes fadeIn {
 					0% {
 						opacity: 0;
-						transform: translateX(-100%);
 					}
 					100% {
 						opacity: 1;
-						background-color: rgba(var(--white), 0.99);
+						transform: translateX(0%);
 					}
 				}
 			}
