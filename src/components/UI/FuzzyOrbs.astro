@@ -62,10 +62,10 @@ const right =
 	position.right === 'true' ? `${orbSizes.width[size] * 2}rem` : position.right;
 ---
 
-<!-- <div class='container'>
+<div class='container'>
 	<div class='orb orb--1'></div>
 	<div class='orb orb--2'></div>
-</div> -->
+</div>
 <style
 	lang='scss'
 	define:vars={{
@@ -98,7 +98,7 @@ const right =
 		position: absolute;
 		width: var(--width);
 		height: var(--height);
-		filter: blur(var(--blur));
+		/* filter: blur(var(--blur)); */
 
 		&--1 {
 			background-color: var(--color1);
