@@ -44,7 +44,7 @@ const images: Images[] = [
 					data-highlight='true'
 					data-highlight-color='rgba(var(--blue-light), 0.1)'
 					href={image.href}
-					class='sponsorLink'
+					class='associatedLinks'
 					target='_blank'
 				>
 					<Image
@@ -74,18 +74,18 @@ const images: Images[] = [
 		align-items: center;
 		flex-wrap: wrap;
 		margin: 0 auto;
-
-		& a {
-			display: block !important;
-		}
 	}
 
-	.sponsorLink {
+	.associatedLinks {
+		display: block;
 		padding-inline: 4rem;
 		transform: translate3d(0, 0, 0);
-	}
-	.sponsorLink:hover {
-		background-color: rgba(var(--blue-light), 0.1);
+		transition: all 0.75s ease-out;
+
+		@include m.hasHover {
+			transition: all 0.2s ease;
+			transform: translate3d(0, 0, 0) translateY(-5px);
+		}
 	}
 
 	@include m.mobile-down {
