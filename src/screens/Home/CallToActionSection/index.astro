@@ -5,9 +5,13 @@ import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
 
 <script>
 	const emailInput = document.getElementById('emailInput') as HTMLInputElement;
+	const subscribeBtn = document.getElementById(
+		'subscribeButton'
+	) as HTMLButtonElement;
 	const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-	let currentInputValue: string;
 
+	let isValidEmail: boolean | undefined;
+	let currentInputValue: string;
 	let timer: number = 0;
 
 	emailInput.addEventListener('keyup', (e) => {
@@ -18,16 +22,27 @@ import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
 		}
 
 		reset(input.value);
+		isValidEmail = undefined;
+		subscribeBtn.disabled = true;
 
 		if (input.value.match(emailRegex)) {
 			emailInput.classList.add('valid');
+			subscribeBtn.disabled = false;
+			isValidEmail = true;
 		} else {
 			timer = setTimeout(() => {
 				if (!input.value.match(emailRegex)) {
+					isValidEmail = false;
+					subscribeBtn.disabled = true;
+
 					emailInput.classList.add('inValid');
 				}
 			}, 1000);
 		}
+	});
+
+	subscribeBtn.addEventListener('click', (e) => {
+		if (isValidEmail === false || isValidEmail === undefined) return;
 	});
 
 	function reset(value: string) {

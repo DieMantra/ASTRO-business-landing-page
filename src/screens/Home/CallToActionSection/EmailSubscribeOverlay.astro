@@ -23,6 +23,7 @@
 	});
 
 	subscribeButton.addEventListener('click', (e) => {
+		if (subscribeButton.disabled) return;
 		if (!isOpen) {
 			openModal();
 			triggerTimer();

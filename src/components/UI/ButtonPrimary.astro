@@ -34,7 +34,7 @@ const backgroundColor = `var(${background})`;
 	lang='scss'
 	define:vars={{ textColor, backgroundColor, height, fontSize }}
 >
-	@use '../../sass/mixins' as m;
+	@use 'src/sass/mixins' as m;
 	.custom_button {
 		--padding-block: 0.9rem;
 		color: rgba(var(--textColor));
@@ -56,6 +56,10 @@ const backgroundColor = `var(${background})`;
 
 			outline: rgba(var(--backgroundColor), 0.5) solid 2px;
 			outline-offset: 2px;
+		}
+
+		&:disabled {
+			background-color: rgba(var(--backgroundColor), 0.5);
 		}
 	}
 </style>

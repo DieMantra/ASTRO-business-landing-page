@@ -30,10 +30,69 @@ const REVIEWS: Review[] = [
 
 <script>
 	const reviewButtons = document.querySelectorAll('.reviewPaginationButton');
+	const articleWrapper = document.getElementById(
+		'articleWrapper'
+	) as HTMLDivElement;
 	const articles = document.querySelectorAll(
 		'.reviewArticle'
 	) as unknown as HTMLElement[];
 	let prevElementIndex: number;
+
+	let touchStart: number;
+	let touchEnd: number;
+	articleWrapper.addEventListener(
+		'touchstart',
+		(e) => {
+			touchStart = e.touches.item(0)?.clientX || 0;
+		},
+		{ passive: true }
+	);
+
+	articleWrapper.addEventListener(
+		'touchend',
+		(e) => {
+			touchEnd = e.changedTouches.item(0)?.clientX || 0;
+			const { width: elementWidth } = articleWrapper.getClientRects()[0];
+
+			handleTouchSwipe(elementWidth);
+		},
+		{ passive: true }
+	);
+
+	function handleTouchSwipe(elementWidth: number) {
+		const isSwipingToRight =
+			touchEnd > touchStart && touchEnd - touchStart >= elementWidth / 3;
+		const isSwipingToLeft =
+			touchEnd < touchStart && touchStart - touchEnd >= elementWidth / 3;
+
+		const maxDistance = reviewButtons.length;
+
+		if (isSwipingToRight) {
+			if (prevElementIndex === 0) {
+				prevElementIndex = maxDistance;
+
+				setBtnStyles(prevElementIndex);
+				setActiveArticle(prevElementIndex);
+			}
+
+			prevElementIndex--;
+
+			setBtnStyles(prevElementIndex);
+			setActiveArticle(prevElementIndex);
+		}
+
+		if (isSwipingToLeft) {
+			prevElementIndex++;
+
+			if (prevElementIndex === maxDistance) {
+				prevElementIndex = 0;
+				init();
+			}
+
+			setBtnStyles(prevElementIndex);
+			setActiveArticle(prevElementIndex);
+		}
+	}
 
 	reviewButtons.forEach((btn, index) => {
 		btn.addEventListener('click', () => {
@@ -91,7 +150,7 @@ const REVIEWS: Review[] = [
 		}}
 	/>
 	<h1>Our valuable client’s say</h1>
-	<div class='articleWrapper'>
+	<div class='articleWrapper' id='articleWrapper'>
 		{
 			REVIEWS.map((review, i) => (
 				<article class={'reviewArticle' + (i === 0 ? ' active' : '')}>
