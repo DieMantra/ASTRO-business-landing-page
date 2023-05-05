@@ -41,7 +41,6 @@ const links = [
 
 				if (timeSpentScrolling >= 0.35 || !isScrollTimerActive) {
 					// CONTINUE timer and check the position
-					console.log('checking position');
 					checkScrollPosition();
 				}
 
@@ -55,7 +54,6 @@ const links = [
 				}
 
 				windowCurrentPosition = window.scrollY;
-				console.log(timeSpentScrolling);
 			}, 350);
 		}
 	});

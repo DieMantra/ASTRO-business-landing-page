@@ -51,6 +51,7 @@ const images: Images[] = [
 						class='image'
 						src={image.src}
 						alt={image.alt}
+						loading={'eager'}
 						width={200}
 						quality={100}
 						height={100}
@@ -73,12 +74,18 @@ const images: Images[] = [
 		align-items: center;
 		flex-wrap: wrap;
 		margin: 0 auto;
-		// padding-inline: 2rem;
+
+		& a {
+			display: block !important;
+		}
 	}
 
 	.sponsorLink {
-		display: block;
 		padding-inline: 4rem;
+		transform: translate3d(0, 0, 0);
+	}
+	.sponsorLink:hover {
+		background-color: rgba(var(--blue-light), 0.1);
 	}
 
 	@include m.mobile-down {

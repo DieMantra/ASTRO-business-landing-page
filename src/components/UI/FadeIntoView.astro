@@ -68,19 +68,23 @@ const speedVar = `${transitionSpeedMs}ms`,
 	.fadeInSlot {
 		transition: all var(--speedVar) var(--transitionVar);
 		opacity: 0;
-		transform: translate(var(--translateX), var(--translateY));
+		transform: translate(var(--translateX), var(--translateY))
+			translate3d(0, 0, 0);
 		/* will-change: transform, opacity; */
+		filter: blur(100px);
 
 		&.show {
 			opacity: 1;
-			transform: translate(0);
+			filter: initial;
+			transform: translate(0) translate3d(0, 0, 0);
 		}
 	}
 	@media screen and (width < 768px) {
 		.fadeInSlot {
 			transition: all var(--speedVar) var(--transitionVar);
 			opacity: 0;
-			transform: translate(var(--mobileTranslateX), var(--mobileTranslateY));
+			transform: translate(var(--mobileTranslateX), var(--mobileTranslateY))
+				translate3d(0, 0, 0);
 		}
 	}
 </style>
