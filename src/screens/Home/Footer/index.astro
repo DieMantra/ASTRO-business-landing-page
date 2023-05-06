@@ -1,0 +1,254 @@
+---
+import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+
+import FacebookIcon from '../../../../public/images/socialIcons/facebook.astro';
+import InstagramIcon from '../../../../public/images/socialIcons/instagram.astro';
+import LinkedInIcon from '../../../../public/images/socialIcons/linkedIn.astro';
+import PinterestIcon from '../../../../public/images/socialIcons/pinterest.astro';
+import TwitterIcon from '../../../../public/images/socialIcons/twitter.astro';
+
+import LWG_Logo from '../../../../public/images/logos/LW.G.astro';
+import LinkColumn from './LinkColumn.astro';
+---
+
+<footer>
+	<FuzzyOrbs
+		position={{
+			left: 'true',
+			top: '-100px',
+		}}
+		rotation={-45}
+	/>
+	<div class='footer-wrapper'>
+		<div class='content content--1'>
+			<div class='lwg-logo'>
+				<LWG_Logo />
+			</div>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+			<div class='socialLinks'>
+				<a href='https://www.facebook.com' target='_blank'>
+					<FacebookIcon />
+				</a>
+				<a href='https://www.instagram.com' target='_blank'>
+					<InstagramIcon />
+				</a>
+				<a href='https://www.linkedin.com' target='_blank'>
+					<LinkedInIcon />
+				</a>
+				<a href='https://www.pinterest.com' target='_blank'>
+					<PinterestIcon />
+				</a>
+				<a href='https://twitter.com' target='_blank'>
+					<TwitterIcon />
+				</a>
+			</div>
+		</div>
+		<div class='content content--2'>
+			<LinkColumn
+				title='Quick Links'
+				links={[
+					{ name: 'About Our Company', url: '/about/company' },
+					{ name: 'Services We Provide', url: '/services' },
+					{ name: 'Career & Opportunity', url: '/careers' },
+					{ name: 'Privacy & policy', url: '/policy' },
+					{ name: 'Contact Us', url: '/contact' },
+				]}
+			/>
+		</div>
+		<div class='content content--3'>
+			<LinkColumn
+				title='Company'
+				links={[
+					{ name: 'About Company', url: '/about/company' },
+					{ name: 'Our Testimonials', url: '/testimonials' },
+					{ name: 'Latest News', url: '/latest-news' },
+					{ name: 'Our Mission', url: '/our-mission' },
+					{ name: 'Get a Free Quote', url: '/quote' },
+				]}
+			/>
+		</div>
+		<div class='content content--4'>
+			<LinkColumn
+				title='Contact Us'
+				links={[
+					{
+						name: 'Sagrada Familia, Herba Street Front USA',
+						external: true,
+						url: 'https://www.google.com/maps/search/Sagrada+Familia,+Herba+Street+Front+USA/@-38.176727,144.5327639,14z',
+					},
+					{
+						type: 'email',
+						external: true,
+						name: 'tariqul2653@gmail.com',
+						url: 'mailto:tariqul2653@gmail.com',
+					},
+					{
+						external: true,
+						type: 'phone',
+						name: '5684 2359',
+						url: 'tel:5684 2359',
+					},
+				]}
+			/>
+		</div>
+		<FuzzyOrbs
+			position={{
+				left: '50%',
+				bottom: 'true',
+			}}
+			rotation={-45}
+		/>
+	</div>
+</footer>
+<style lang='scss'>
+	@use '/src/sass/mixins' as m;
+
+	footer {
+		position: relative;
+		background: linear-gradient(
+			134.15deg,
+			rgba(255, 255, 255, 0.6) -3.28%,
+			rgba(255, 255, 255, 0.4) 106.42%
+		);
+		border-radius: 8px;
+	}
+	.footer-wrapper {
+		max-width: var(--screen-large);
+		margin-inline: auto;
+		position: relative;
+		padding: 14rem 2rem;
+		overflow-y: hidden;
+		overflow-x: hidden;
+
+		display: grid;
+		align-items: stretch;
+		grid-template-columns: 1.5fr repeat(3, 1fr);
+
+		@media screen and (width < 900px) {
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: 5rem;
+
+			padding: 8rem 2rem;
+		}
+
+		@media screen and (width < 490px) {
+			grid-template-columns: 1fr;
+			gap: 5rem;
+			padding: 8rem 2rem;
+			justify-items: center;
+		}
+	}
+
+	.content {
+		&--1 {
+			font-size: 1.6rem;
+			align-self: center;
+
+			@media screen and (width < 900px) {
+				grid-column: 1 / -1;
+				justify-self: center;
+			}
+
+			& .lwg-logo {
+				margin-bottom: 2rem;
+				width: 8rem;
+			}
+
+			& .socialLinks {
+				display: flex;
+				align-items: stretch;
+				flex-wrap: wrap;
+				gap: 3rem;
+				margin-top: 4rem;
+
+				& a {
+					position: relative;
+					fill: #161718;
+					transition: all 0.5s ease;
+
+					&:first-child {
+						fill: #157adf;
+
+						@include m.hasHover {
+							transform: translateY(-3px);
+							transition: all 0.2s ease;
+							fill: #419df9;
+						}
+					}
+
+					&:nth-child(2) {
+						fill: #fc4e7c;
+
+						@include m.hasHover {
+							transform: translateY(-3px);
+							transition: all 0.2s ease;
+							fill: #bb44e6;
+						}
+					}
+
+					&:nth-child(3) {
+						fill: #0077b5;
+
+						@include m.hasHover {
+							transform: translateY(-3px);
+							transition: all 0.2s ease;
+							fill: #00a0dc;
+						}
+					}
+
+					&:nth-child(4) {
+						fill: #bd081c;
+
+						@include m.hasHover {
+							transform: translateY(-3px);
+							transition: all 0.2s ease;
+							fill: #e71d32;
+						}
+					}
+
+					&:nth-child(5) {
+						fill: #1da1f2;
+
+						@include m.hasHover {
+							transform: translateY(-3px);
+							transition: all 0.2s ease;
+							fill: #4ab3f4;
+						}
+					}
+
+					@include m.hasHover {
+						transform: translateY(-3px);
+						transition: all 0.2s ease;
+						fill: #4f6070;
+
+						&::after {
+							transition: all 0.2s ease;
+							transform: translateY(3px) scaleX(1);
+							opacity: 1;
+						}
+					}
+
+					&::after {
+						content: '';
+						position: absolute;
+						width: 100%;
+						height: 3px;
+						bottom: 0;
+						left: 0;
+						background: #7aa2ff;
+						opacity: 0;
+						transition: all 0.5s ease;
+						transform-origin: center;
+						transform: translateY(3px) scaleX(0);
+					}
+				}
+			}
+		}
+		&--2 {
+		}
+		&--3 {
+		}
+		&--4 {
+		}
+	}
+</style>

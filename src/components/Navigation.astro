@@ -1,8 +1,7 @@
 ---
-import { Image } from '@astrojs/image/components';
+import LWGLogo from '../../public/images/logos/LW.G.astro';
 import Button from './UI/ButtonPrimary.astro';
 import HamburgerMenu from './UI/HamgurberMenu.astro';
-const SVG_LOGO = '/images/logos/LW.G.svg';
 
 const links = [
 	{ href: '/', text: 'Home' },
@@ -131,15 +130,9 @@ const links = [
 
 <nav class='nav' id='nav'>
 	<div class='controls-wrapper'>
-		<Image
-			class='logo'
-			src={SVG_LOGO}
-			alt={'business-logo'}
-			fit={'inside'}
-			format={'svg'}
-			width={1}
-			height={1}
-		/>
+		<a href='/' class='logoLink'>
+			<LWGLogo class='logo' />
+		</a>
 		<menu class='menu' id='nav--menu'>
 			<ul class='ul'>
 				{
@@ -179,6 +172,13 @@ const links = [
 
 <style lang='scss'>
 	@use '../sass/mixins.scss' as m;
+
+	.logoLink {
+		display: flex;
+		height: 2.5rem;
+		width: auto;
+	}
+
 	.nav {
 		--padding-block: 0.9rem;
 		--transitionSpeed: 0.35s;

@@ -1,0 +1,77 @@
+---
+interface Props {
+	title: string;
+	links: { external?: boolean; type?: string; name: string; url: string }[];
+}
+
+const { title, links } = Astro.props;
+---
+
+<h3>{title}</h3>
+<div class='wrapper'>
+	{
+		links.map((link) => {
+			return (
+				<a
+					rel='noopener noreferrer'
+					type={link.type}
+					href={link.url}
+					target={link.external ? '_blank' : '_self'}
+				>
+					{link.name}
+				</a>
+			);
+		})
+	}
+</div>
+
+<style lang='scss'>
+	@use 'src/sass/mixins' as m;
+
+	h3 {
+		padding: 0;
+		margin: 0;
+		margin-bottom: 2rem;
+		color: rgba(var(--black));
+		font-size: 3rem;
+		font-weight: 300;
+	}
+
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	a {
+		font-size: 1.6rem;
+		padding: 1rem 0;
+		font-weight: 300;
+		color: rgba(var(--grey), 1);
+		border-bottom: 1px solid transparent;
+		position: relative;
+		transition: all 0.3s ease;
+		width: fit-content;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 0%;
+			height: 1px;
+			background: rgba(var(--grey), 0.4);
+			transition: width 0.3s ease;
+		}
+
+		@include m.hasHover {
+			color: rgba(var(--black), 1);
+
+			transform: translateX(3px);
+			padding-inline: 1rem;
+			&::after {
+				transition: width 0.2s ease;
+				width: 100%;
+			}
+		}
+	}
+</style>
