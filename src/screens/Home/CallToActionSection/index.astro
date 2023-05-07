@@ -9,6 +9,7 @@ import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
 		'subscribeButton'
 	) as HTMLButtonElement;
 	const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+	subscribeBtn.disabled = true;
 
 	let isValidEmail: boolean | undefined;
 	let currentInputValue: string;
@@ -54,7 +55,7 @@ import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
 		emailInput.classList.remove('valid');
 	}
 </script>
-<section>
+<section id='callToActionSection'>
 	<FuzzyOrbs
 		blurAmount={45}
 		position={{

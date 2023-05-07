@@ -1,0 +1,88 @@
+<script>
+	const modal = document.getElementById('videoModal') as HTMLDivElement;
+	const body = document.body;
+	const modalLink = document.querySelector(
+		'#openExampleVideoLink'
+	) as HTMLAnchorElement;
+	window.onhashchange = () => {
+		const hash = window.location.hash;
+		if (hash === '#example-video') {
+			openModal();
+		}
+		if (hash === '') {
+			closeModal();
+		}
+	};
+
+	modalLink.addEventListener('click', (e) => {
+		e.preventDefault();
+		openModal();
+	});
+
+	modal.addEventListener('click', (e) => {
+		if (e.target === modal) {
+			closeModal();
+		}
+	});
+
+	function openModal() {
+		modal.classList.add('open');
+		body.classList.add('noScroll');
+		window.addEventListener('keydown', closeModalListener);
+	}
+
+	function closeModal() {
+		modal.classList.remove('open');
+		body.classList.remove('noScroll');
+		window.location.hash = '';
+		window.removeEventListener('keydown', closeModalListener);
+	}
+
+	function closeModalListener(e: KeyboardEvent) {
+		if (e.key === 'Escape') {
+			closeModal();
+		}
+	}
+</script>
+
+<div id='videoModal' class='modal'>
+	<div class='modal-content'>
+		<h3>An Example Video For a Product</h3>
+		<video controls src='example-video.mp4'></video>
+	</div>
+</div>
+
+<style lang='scss'>
+	/* Modal styles */
+	.modal {
+		display: none;
+		position: fixed;
+		z-index: 9999;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: rgba(0, 0, 0, 0.8);
+		backdrop-filter: blur(20px);
+
+		&.open {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+
+	.modal-content {
+		max-width: var(--screen-large);
+		border-radius: 20px;
+		overflow: hidden;
+		background-color: rgba(var(--black), 0.5);
+
+		& h3 {
+			font-size: 3rem;
+			text-align: center;
+			color: rgba(var(--white));
+		}
+	}
+</style>

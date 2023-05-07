@@ -1,8 +1,10 @@
 ---
 import { Image } from '@astrojs/image/components';
 
+import ButtonLink from '../../../components/UI/ButtonLink.astro';
 import ButtonPrimary from '../../../components/UI/ButtonPrimary.astro';
 import FuzzyOrbs from '../../../components/UI/FuzzyOrbs.astro';
+import ExampleVideo from './ExampleVideo.astro';
 import Sponsors from './Sponsors.astro';
 
 const IMG_URL = '/images/backgrounds/computer-graphic.png';
@@ -24,12 +26,17 @@ const IMG_URL = '/images/backgrounds/computer-graphic.png';
 				vulputate nullam diam. Quam consectetur.
 			</p>
 			<div class='article__actions'>
-				<ButtonPrimary background={'--blue'} color={'--white'}>
+				<ButtonLink
+					href='#callToActionSection'
+					background={'--blue'}
+					color={'--white'}
+				>
 					Get Started
-				</ButtonPrimary>
+				</ButtonLink>
 				<a
 					href='#example-video'
 					class='article__actions--example'
+					id='openExampleVideoLink'
 					data-highlight='true'
 					data-highlight-color='rgba(var(--orange), 0.1)'
 				>
@@ -53,6 +60,7 @@ const IMG_URL = '/images/backgrounds/computer-graphic.png';
 			/>
 		</div>
 	</div>
+	<ExampleVideo />
 	<Sponsors />
 </main>
 <style lang='scss'>

@@ -1,0 +1,114 @@
+---
+interface Props {
+	openButtonId: string;
+	closeButtonId?: string;
+	classes?: string;
+}
+
+const { openButtonId, closeButtonId, classes = '' } = Astro.props;
+---
+
+<script>
+	const body = document.getElementsByTagName('body')[0];
+	const signUpDialog = document.getElementById(
+		'modalThing'
+	) as HTMLDialogElement;
+
+	const openSignUpModalBtn = document.querySelectorAll(
+		'#' + signUpDialog.dataset.openBtn
+	);
+
+	const closeSignUpModalBtn = document.querySelectorAll(
+		'#' + signUpDialog.dataset.closeBtn
+	);
+
+	openSignUpModalBtn.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			handleOpenModal();
+		});
+	});
+	closeSignUpModalBtn.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			handleCloseModal();
+		});
+	});
+
+	signUpDialog?.addEventListener('click', (e: MouseEvent) => {
+		if (
+			e.offsetX < 0 ||
+			e.offsetX > signUpDialog.offsetWidth ||
+			e.offsetY < 0 ||
+			e.offsetY > signUpDialog.offsetHeight
+		) {
+			handleCloseModal();
+		}
+	});
+
+	function handleCloseModal() {
+		signUpDialog.close();
+		body.classList.remove('noScroll');
+	}
+
+	function handleOpenModal() {
+		signUpDialog.showModal();
+		body.classList.add('noScroll');
+	}
+</script>
+
+<dialog
+	id='modalThing'
+	role='dialog'
+	data-open-btn={openButtonId}
+	data-close-btn={closeButtonId}
+	class={classes}
+>
+	<slot />
+</dialog>
+<style lang='scss'>
+	dialog {
+		border: none;
+		padding: 0;
+		border-radius: 0;
+		background-color: transparent;
+		animation: slideUp 0.3s ease-in-out;
+
+		&::backdrop {
+			background-color: rgba(0, 0, 0, 0.2);
+			animation: fadeIn 0.3s ease-in-out,
+				animatedGradientBackground 15s infinite;
+			background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+			background-size: 400% 400%;
+			opacity: 0.4;
+		}
+	}
+
+	@keyframes slideUp {
+		from {
+			transform: translateY(100%);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			backdrop-filter: blur(0px);
+			opacity: 0;
+		}
+	}
+
+	@keyframes animatedGradientBackground {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+</style>
